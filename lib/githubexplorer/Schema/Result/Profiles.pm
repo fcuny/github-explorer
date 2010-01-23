@@ -19,6 +19,8 @@ __PACKAGE__->add_columns(
     public_gist_count => { data_type => 'int' },
     public_repo_count => { data_type => 'int' },
     depth             => { data_type => 'boolean' },
+    perl_total_bytes =>
+        { data_type => 'int', is_nullable => 1, default_value => 0 },
 );
 
 __PACKAGE__->set_primary_key('id');

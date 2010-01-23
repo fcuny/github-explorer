@@ -6,7 +6,7 @@ use Net::GitHub::V2::Users;
 sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
-    return if $depth > 2;
+    return if $depth > 3;
     my $profile = $self->_profile_exists($login);
 
     say "fetch profile for $login ($depth)...";
@@ -32,9 +32,13 @@ sub fetch_profile {
     foreach my $f (@$followers) {
         my $p = $self->fetch_profile( $f, $local_depth );
         next unless $p;
-        $self->schema->resultset('Follow')
-            ->create(
-            { id_following => $profile->id, id_follower => $p->id } );
+        $self->schema->txn_do(
+            sub {
+                $self->schema->resultset('Follow')
+                    ->find_or_create(
+                    { id_following => $profile->id, id_follower => $p->id } );
+            }
+        );
     }
     $profile;
 }
@@ -51,8 +55,15 @@ sub _create_profile {
 
     $profile->{depth} = $depth;
 
-    my $profile_rs = $self->schema->resultset('Profiles')->create($profile);
-    say $profile_rs->login."'s profile created";
+    my $profile_rs;
+
+    $self->schema->txn_do(
+        sub {
+            $profile_rs
+                = $self->schema->resultset('Profiles')->create($profile);
+        }
+    );
+    say '-> '.$profile_rs->login . "'s profile created";
     return $profile_rs;
 }
 

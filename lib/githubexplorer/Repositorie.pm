@@ -6,9 +6,9 @@ use Net::GitHub::V2::Repositories;
 sub fetch_repo {
     my ( $self, $profile, $repo_name ) = @_;
 
-    return if $self->_repo_exists($profile, $repo_name);
+    return if $self->_repo_exists( $profile, $repo_name );
 
-    say "check ".$profile->login."'s $repo_name";
+    say "-> check " . $profile->login . "'s $repo_name";
     sleep(1);
     my $github = Net::GitHub::V2::Repositories->new(
         owner => $profile->login,
@@ -16,11 +16,14 @@ sub fetch_repo {
         login => $self->api_login,
         token => $self->api_token,
     );
-    my $langs = [ keys %{ $github->languages() } ];
     sleep(1);
-    return unless grep {/perl/i} @$langs;
+    my $langs = $github->languages();
+    sleep(1);
+    return unless grep {/perl/i} keys %$langs;
     my $repo_desc = $github->show();
-    $repo_desc->{languages} = $langs;
+    sleep(1);
+    $profile->perl_total_bytes( $profile->perl_total_bytes + $langs->{Perl} );
+    $self->schema->txn_do( sub { $profile->update } );
     $self->_create_repo( $profile, $repo_desc );
     sleep(1);
 }
@@ -43,8 +46,12 @@ sub _create_repo {
             map { $_ => $repo_desc->{$_} }
                 (qw/description name homepage url watchers forks/)
         };
-        $repo_rs
-            = $self->schema->resultset('Repositories')->create($repo_insert);
+        $self->schema->txn_do(
+            sub {
+                $repo_rs = $self->schema->resultset('Repositories')
+                    ->create($repo_insert);
+            }
+        );
     }
     $repo_rs;
 }
