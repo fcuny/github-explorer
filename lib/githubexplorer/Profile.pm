@@ -6,6 +6,7 @@ use Net::GitHub::V2::Users;
 sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
+    return if $depth > 2;
     my $profile = $self->_profile_exists($login);
 
     say "fetch profile for $login ($depth)...";
@@ -28,9 +29,8 @@ sub fetch_profile {
     }
     my $followers   = $github->followers();
     my $local_depth = $depth + 1;
-    return $profile if $local_depth > 3;
     foreach my $f (@$followers) {
-        my $p = $self->fetch_profile( $f, $depth + 1 );
+        my $p = $self->fetch_profile( $f, $local_depth );
         next unless $p;
         $self->schema->resultset('Follow')
             ->create(
