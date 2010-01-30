@@ -8,7 +8,8 @@ use Getopt::Long;
 GetOptions(
     'deploy'   => \my $deploy,
     'profiles' => \my $profiles,
-    'repo'     => \my $repo
+    'repo'     => \my $repo,
+    'graph' => \my $graph,
 );
 
 my $gh = githubexplorer->new(
@@ -21,5 +22,5 @@ my $gh = githubexplorer->new(
 );
 
 $gh->deploy if $deploy;
-$gh->harvest_profiles;
-
+$gh->harvest_profiles if $profiles;
+$gh->gen_graph if $graph;

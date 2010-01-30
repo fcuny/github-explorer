@@ -4,6 +4,7 @@ use lib ('/home/franck/code/git/net-github/lib');
 use YAML::Syck;
 use Moose;
 use githubexplorer::Schema;
+use githubexplorer::Gexf;
 
 with qw/githubexplorer::Profile githubexplorer::Repositorie/;
 
@@ -40,12 +41,19 @@ sub harvest_profiles {
 }
 
 sub harvest_repo {
-    my ($self) = @_;
+    my $self = shift;
     $self->_connect unless $self->has_schema;
     my $profiles = $self->schema->resultset('Profiles')->search();
     while (my $p = $profiles->next) {
         $self->fetch_repo($p);
     }
+}
+
+sub gen_graph {
+    my $self = shift;
+    $self->_connect unless $self->has_schema;
+    my $graph = githubexplorer::Gexf->new(schema => $self->schema);
+    $graph->profiles;
 }
 
 1;
