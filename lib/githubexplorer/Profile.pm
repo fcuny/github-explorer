@@ -3,32 +3,38 @@ use 5.010;
 use Moose::Role;
 use Net::GitHub::V2::Users;
 
+has banned_profiles =>
+    ( isa => 'ArrayRef', is => 'ro', default => sub { [qw/gitpan/] } );
+
 sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
-    return if $depth > 3;
+    return if grep {$_ =~ /$login/i} @{$self->banned_profiles};
+
+    return if $depth > 2;
     my $profile = $self->_profile_exists($login);
 
     say "fetch profile for $login ($depth)...";
-    sleep(1);
     my $github = Net::GitHub::V2::Users->new(
         owner => $login,
         login => $self->api_login,
         token => $self->api_token,
     );
-    sleep(2);
+    sleep(1);
 
     if ( !$profile ) {
         $profile = $self->_create_profile( $login, $github->show, $depth );
-        if ( $self->with_repo ) {
-            foreach my $repo ( @{ $github->list } ) {
-                $self->fetch_repo( $profile, $repo->{name} );
-            }
-        }
         sleep(1);
     }
+    if ( $self->with_repo ) {
+        $self->fetch_repositories( $profile, $github->list );
+    }
+
     my $followers   = $github->followers();
+    sleep(1);
+    my $following   = $github->following();
     my $local_depth = $depth + 1;
+
     foreach my $f (@$followers) {
         my $p = $self->fetch_profile( $f, $local_depth );
         next unless $p;
@@ -40,8 +46,22 @@ sub fetch_profile {
             }
         );
     }
+
+    foreach my $f (@$following) {
+        my $p = $self->fetch_profile( $f, $local_depth );
+        next unless $p;
+        $self->schema->txn_do(
+            sub {
+                $self->schema->resultset('Follow')
+                    ->find_or_create(
+                    { id_following => $p->id, id_follower => $profile->id } );
+            },
+
+        );
+    }
     $profile;
 }
+
 
 sub _profile_exists {
     my ( $self, $login ) = @_;

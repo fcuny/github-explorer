@@ -12,6 +12,7 @@ __PACKAGE__->add_columns(
     url         => { data_type => 'varchar', is_nullable       => 1 },
     watchers    => { data_type => 'int' },
     forks       => { data_type => 'int' },
+    fork        => { data_type => 'bool' },
     id_profile  => { data_type => 'int',     is_foreign_key    => 1 },
 );
 

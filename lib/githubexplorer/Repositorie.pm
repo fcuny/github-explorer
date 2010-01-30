@@ -3,30 +3,30 @@ use 5.010;
 use Moose::Role;
 use Net::GitHub::V2::Repositories;
 
-sub fetch_repo {
-    my ( $self, $profile, $repo_name ) = @_;
+sub fetch_repositories {
+    my ( $self, $profile, $repo_list ) = @_;
 
-    return if $self->_repo_exists( $profile, $repo_name );
+    foreach my $repo (@$repo_list) {
+        next if $self->_repo_exists( $profile, $repo->{name} );
+        say "-> check " . $profile->login . "'s ".$repo->{name};
+        # my $github = Net::GitHub::V2::Repositories->new(
+        #     owner => $profile->login,
+        #     repo  => $repo->{name},
+        #     login => $self->api_login,
+        #     token => $self->api_token,
+        # );
 
-    say "-> check " . $profile->login . "'s $repo_name";
-    sleep(1);
-    my $github = Net::GitHub::V2::Repositories->new(
-        owner => $profile->login,
-        repo  => $repo_name,
-        login => $self->api_login,
-        token => $self->api_token,
-    );
-    sleep(1);
-    my $langs = $github->languages();
-    sleep(1);
-    return unless grep {/perl/i} keys %$langs;
-    my $repo_desc = $github->show();
-    sleep(1);
-    $profile->perl_total_bytes( $profile->perl_total_bytes + $langs->{Perl} );
-    $self->schema->txn_do( sub { $profile->update } );
-    $self->_create_repo( $profile, $repo_desc );
-    sleep(1);
+  # my $langs = $github->languages();
+  # sleep(1);
+  # return unless grep {/perl/i} keys %$langs;
+  # my $repo_desc = $github->show();
+  # sleep(1);
+  # $profile->perl_total_bytes( $profile->perl_total_bytes + $langs->{Perl} );
+  # $self->schema->txn_do( sub { $profile->update } );
+        $self->_create_repo( $profile, $repo );
+    }
 }
+
 
 sub _repo_exists {
     my ( $self, $profile, $repo_name ) = @_;
@@ -44,7 +44,7 @@ sub _create_repo {
         my $repo_insert = {
             id_profile => $profile->id,
             map { $_ => $repo_desc->{$_} }
-                (qw/description name homepage url watchers forks/)
+                (qw/description name homepage url watchers forks fork/)
         };
         $self->schema->txn_do(
             sub {
