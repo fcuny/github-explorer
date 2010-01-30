@@ -10,9 +10,11 @@ sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
     return if grep {$_ =~ /$login/i} @{$self->banned_profiles};
-
     return if $depth > 2;
+
     my $profile = $self->_profile_exists($login);
+
+    return $profile if $profile;
 
     say "fetch profile for $login ($depth)...";
     my $github = Net::GitHub::V2::Users->new(
@@ -25,9 +27,9 @@ sub fetch_profile {
     if ( !$profile ) {
         $profile = $self->_create_profile( $login, $github->show, $depth );
         sleep(1);
-    }
-    if ( $self->with_repo ) {
-        $self->fetch_repositories( $profile, $github->list );
+        if ( $self->with_repo ) {
+            $self->fetch_repositories( $profile, $github->list );
+        }
     }
 
     my $followers   = $github->followers();
