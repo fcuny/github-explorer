@@ -23,6 +23,7 @@ sub fetch_profile {
     sleep(1);
 
     if ( !$profile ) {
+        return if $depth > 3;
         my $desc = $github->show;
         if (!$desc || ($desc && exists $desc->{error})) {
             sleep(60);
@@ -35,47 +36,71 @@ sub fetch_profile {
         }
     }
 
-    my $followers = $github->followers();
-    sleep(1);
     my $following   = $github->following();
-    sleep(1);
-    my $local_depth = $depth + 1;
+    foreach my $f (@$following) {
+        if (my $p = $self->schema->resultset('Profiles')->find({login => $f})) {
+        $self->schema->txn_do(
+            sub {
+                $self->schema->resultset('Follow')->find_or_create(
+                    {
+                        id_following => $p->id,
+                        id_follower  => $profile->id
+                    }
+                );
+            },
 
-    unless ( $profile->done ) {
-        foreach my $f (@$followers) {
-            my $p = $self->fetch_profile( $f, $local_depth );
-            next unless $p;
-            $self->schema->txn_do(
-                sub {
-                    $self->schema->resultset('Follow')->find_or_create(
-                        {
-                            id_following => $profile->id,
-                            id_follower  => $p->id
-                        }
-                    );
-                }
-            );
+        );
+        }else{
+            say "need to fetch $f";
         }
-
-        foreach my $f (@$following) {
-            my $p = $self->fetch_profile( $f, $local_depth );
-            next unless $p;
-            $self->schema->txn_do(
-                sub {
-                    $self->schema->resultset('Follow')->find_or_create(
-                        {
-                            id_following => $p->id,
-                            id_follower  => $profile->id
-                        }
-                    );
-                },
-
-            );
-        }
-        $profile->update( { done => 1 } );
+#        say "$login follow $f";
+#        my $p = $self->fetch_profile( $f, $local_depth );
+#        next unless $p;
     }
-    sleep(1);
-    $profile;
+
+#    unless ( $profile->done ) {
+#        my $followers = $github->followers();
+#        sleep(1);
+#        my $following   = $github->following();
+#        sleep(1);
+#        my $local_depth = $depth + 1;
+#        foreach my $f (@$followers) {
+#            say "$login is followed by $f";
+#            my $p = $self->fetch_profile( $f, $local_depth );
+#            next unless $p;
+#            $self->schema->txn_do(
+#                sub {
+#                    $self->schema->resultset('Follow')->find_or_create(
+#                        {
+#                            id_following => $profile->id,
+#                            id_follower  => $p->id
+#                        }
+#                    );
+#                }
+#            );
+#        }
+#
+#        foreach my $f (@$following) {
+#            say "$login follow $f";
+#            my $p = $self->fetch_profile( $f, $local_depth );
+#            next unless $p;
+#            $self->schema->txn_do(
+#                sub {
+#                    $self->schema->resultset('Follow')->find_or_create(
+#                        {
+#                            id_following => $p->id,
+#                            id_follower  => $profile->id
+#                        }
+#                    );
+#                },
+#
+#            );
+#        }
+#        say "update profile for $login: done";
+#        $profile->update( { done => 1 } );
+#    }
+#    sleep(1);
+#    $profile;
 }
 
 sub _profile_exists {
