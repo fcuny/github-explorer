@@ -10,20 +10,19 @@ sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
     return if grep { $_ =~ /$login/i } @{ $self->banned_profiles };
-    return if $depth > 3;
 
     my $profile = $self->_profile_exists($login);
 
-    say "fetch profile for $login ($depth)...";
     my $github = Net::GitHub::V2::Users->new(
         owner => $login,
         login => $self->api_login,
         token => $self->api_token,
     );
-    sleep(1);
 
     if ( !$profile ) {
         return if $depth > 3;
+        say "fetch profile for $login ($depth)...";
+        sleep(1);
         my $desc = $github->show;
         if (!$desc || ($desc && exists $desc->{error})) {
             sleep(60);
@@ -36,71 +35,65 @@ sub fetch_profile {
         }
     }
 
-    my $following   = $github->following();
-    foreach my $f (@$following) {
-        if (my $p = $self->schema->resultset('Profiles')->find({login => $f})) {
-        $self->schema->txn_do(
-            sub {
-                $self->schema->resultset('Follow')->find_or_create(
-                    {
-                        id_following => $p->id,
-                        id_follower  => $profile->id
-                    }
-                );
-            },
+   if ( !$profile->done ) {
+       my $local_depth = $depth + 1;
+       my $followers = $github->followers();
+       sleep(1);
+       my $following = $github->following();
 
-        );
-        }else{
-            say "need to fetch $f";
+       # foreach my $f (@$followers) {
+           # say $to->login . " is followed by " . $from;
+       #     $self->_create_relation($f, $profile, $local_depth);
+       # }
+       foreach my $f (@$following) {
+           # say $profile->login . " follow " . $f;
+           $self->_create_relation($profile, $f, $local_depth);
+       }
+       say "update profile for $login: done";
+       $profile->update( { done => 1 } );
+   }
+
+   sleep(1);
+   $profile;
+}
+
+sub _create_relation {
+    my ( $self, $from, $to, $depth ) = @_;
+
+    say "-> create a relation from ".$from->login." to $to";
+    if ( my $p = $self->_profile_exists($to) ) {
+        if ( !$self->_relation_exists( $from->id, $p->id ) ) {
+            $self->schema->txn_do(
+                sub {
+                    $self->schema->resultset('Follow')->find_or_create(
+                        {
+                            origin => $from->id,
+                            dest   => $p->id,
+                        }
+                    );
+                }
+            );
         }
-#        say "$login follow $f";
-#        my $p = $self->fetch_profile( $f, $local_depth );
-#        next unless $p;
+        return;
     }
+    my $p = $self->fetch_profile( $to, $depth );
+    return unless $p;
+    $self->schema->txn_do(
+        sub {
+            $self->schema->resultset('Follow')->find_or_create(
+                {
+                    origin => $from->id,
+                    dest   => $p->id,
+                }
+            );
+        }
+    );
+}
 
-#    unless ( $profile->done ) {
-#        my $followers = $github->followers();
-#        sleep(1);
-#        my $following   = $github->following();
-#        sleep(1);
-#        my $local_depth = $depth + 1;
-#        foreach my $f (@$followers) {
-#            say "$login is followed by $f";
-#            my $p = $self->fetch_profile( $f, $local_depth );
-#            next unless $p;
-#            $self->schema->txn_do(
-#                sub {
-#                    $self->schema->resultset('Follow')->find_or_create(
-#                        {
-#                            id_following => $profile->id,
-#                            id_follower  => $p->id
-#                        }
-#                    );
-#                }
-#            );
-#        }
-#
-#        foreach my $f (@$following) {
-#            say "$login follow $f";
-#            my $p = $self->fetch_profile( $f, $local_depth );
-#            next unless $p;
-#            $self->schema->txn_do(
-#                sub {
-#                    $self->schema->resultset('Follow')->find_or_create(
-#                        {
-#                            id_following => $p->id,
-#                            id_follower  => $profile->id
-#                        }
-#                    );
-#                },
-#
-#            );
-#        }
-#        say "update profile for $login: done";
-#        $profile->update( { done => 1 } );
-#    }
-#    sleep(1);
-#    $profile;
+sub _relation_exists {
+    my ( $self, $from, $to ) = @_;
+    $self->schema->resultset('Follow')
+        ->find( { origin => $from, dest => $to } );
 }
 
 sub _profile_exists {
