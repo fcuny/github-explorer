@@ -5,11 +5,14 @@ use Net::GitHub::V2::Users;
 
 has banned_profiles =>
     ( isa => 'ArrayRef', is => 'ro', default => sub { [qw/gitpan/] } );
+has profiles_to_skip =>
+    ( isa => 'ArrayRef', is => 'ro', default => sub { [] } );
 
 sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
     return if grep { $_ =~ /$login/i } @{ $self->banned_profiles };
+    return if grep { $_ =~ /$login/i } @{ $self->profiles_to_skip };
 
     my $profile = $self->_profile_exists($login);
 
@@ -20,8 +23,10 @@ sub fetch_profile {
     );
 
     if ( !$profile ) {
-        return if $depth > 3;
-        say "fetch profile for $login ($depth)...";
+        my $followers = $github->followers();
+        sleep(1);
+        return if scalar @$followers < 2;
+        say "fetch profile for $login ($depth) ...";
         sleep(1);
         my $desc = $github->show;
         if (!$desc || ($desc && exists $desc->{error})) {
@@ -37,8 +42,8 @@ sub fetch_profile {
 
    if ( !$profile->done ) {
        my $local_depth = $depth + 1;
-       my $followers = $github->followers();
-       sleep(1);
+#       my $followers = $github->followpers();
+#       sleep(1);
        my $following = $github->following();
 
        # foreach my $f (@$followers) {
