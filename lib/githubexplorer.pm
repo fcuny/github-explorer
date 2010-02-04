@@ -8,7 +8,17 @@ use githubexplorer::Gexf;
 
 with qw/githubexplorer::Profile githubexplorer::Repositorie/;
 
-has seed         => ( isa => 'ArrayRef', is => 'ro', required => 1 );
+has seed         => ( isa => 'ArrayRef', is => 'rw', required => 1, lazy =>1, default =>
+sub {
+my $self = shift;
+my $profiles = $self->schema->resultset('Profiles')->search({done => {'!=', 1}}, {order_by =>
+        'login desc'});
+my @seeds;
+while (my $p = $profiles->next) {
+    push @seeds, $p->login;
+}
+return \@seeds;
+});
 has api_login    => ( isa => 'Str',      is => 'ro', required => 1 );
 has api_token    => ( isa => 'Str',      is => 'ro', required => 1 );
 has connect_info => ( isa => 'ArrayRef', is => 'ro', required => 1 );

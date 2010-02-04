@@ -2,6 +2,7 @@ package githubexplorer::Profile;
 use 5.010;
 use Moose::Role;
 use Net::GitHub::V2::Users;
+use Try::Tiny;
 
 has banned_profiles =>
     ( isa => 'ArrayRef', is => 'ro', default => sub { [qw/gitpan/] } );
@@ -11,6 +12,7 @@ has profiles_to_skip =>
 sub fetch_profile {
     my ( $self, $login, $depth ) = @_;
 
+    say "-> start $login ...";
     return if grep { $_ =~ /$login/i } @{ $self->banned_profiles };
     return if grep { $_ =~ /$login/i } @{ $self->profiles_to_skip };
 
@@ -25,6 +27,10 @@ sub fetch_profile {
     if ( !$profile ) {
         my $followers = $github->followers();
         sleep(1);
+        if (!$followers || ref $followers ne 'ARRAY') { 
+            sleep(60);
+            return;
+        }
         return if scalar @$followers < 2;
         say "fetch profile for $login ($depth) ...";
         sleep(1);
@@ -34,6 +40,7 @@ sub fetch_profile {
             $self->fetch_profile($login, $depth);
         }
         $profile = $self->_create_profile( $login, $github->show, $depth );
+        return if !$profile;
         sleep(2);
         if ( $self->with_repo ) {
             $self->fetch_repositories( $profile, $github->list );
@@ -43,8 +50,13 @@ sub fetch_profile {
    if ( !$profile->done ) {
        my $local_depth = $depth + 1;
 #       my $followers = $github->followpers();
-#       sleep(1);
+       sleep(1);
        my $following = $github->following();
+
+       if (!$following || ref $following ne 'ARRAY') { 
+           sleep(60);
+           return;
+       }
 
        # foreach my $f (@$followers) {
            # say $to->login . " is followed by " . $from;
@@ -113,14 +125,20 @@ sub _create_profile {
 
     $profile->{depth} = $depth;
 
-    my $profile_rs;
+    my $profile_rs; my $err;
 
+    try {
     $self->schema->txn_do(
         sub {
             $profile_rs
                 = $self->schema->resultset('Profiles')->create($profile);
         }
     );
+}catch{
+    warn $_;
+    $err = 1;
+};
+return if $err;
     say '-> '.$profile_rs->login . "'s profile created";
     return $profile_rs;
 }
