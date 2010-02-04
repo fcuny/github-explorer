@@ -5,20 +5,26 @@ use YAML::Syck;
 use Moose;
 use githubexplorer::Schema;
 use githubexplorer::Gexf;
+use IO::All;
 
 with qw/githubexplorer::Profile githubexplorer::Repositorie/;
 
-has seed         => ( isa => 'ArrayRef', is => 'rw', required => 1, lazy =>1, default =>
-sub {
-my $self = shift;
-my $profiles = $self->schema->resultset('Profiles')->search({done => {'!=', 1}}, {order_by =>
-        'login desc'});
-my @seeds;
-while (my $p = $profiles->next) {
-    push @seeds, $p->login;
-}
-return \@seeds;
-});
+has seed => (
+    isa      => 'ArrayRef',
+    is       => 'rw',
+    required => 1,
+    lazy     => 1,
+    default  => sub {
+        my $self     = shift;
+        my $profiles = $self->schema->resultset('Profiles')
+            ->search( { done => { '!=', 1 } }, { order_by => 'login desc' } );
+        my @seeds;
+        while ( my $p = $profiles->next ) {
+            push @seeds, $p->login;
+        }
+        return \@seeds;
+    }
+);
 has api_login    => ( isa => 'Str',      is => 'ro', required => 1 );
 has api_token    => ( isa => 'Str',      is => 'ro', required => 1 );
 has connect_info => ( isa => 'ArrayRef', is => 'ro', required => 1 );
@@ -42,11 +48,11 @@ sub _connect {
 }
 
 sub harvest_profiles {
-    my ( $self, $depth) = @_;
+    my ( $self, $depth ) = @_;
     $self->_connect() unless $self->has_schema;
     $depth //= 1;
     foreach my $login ( @{ $self->seed } ) {
-        $self->fetch_profile($login, $depth);
+        $self->fetch_profile( $login, $depth );
     }
 }
 
@@ -54,7 +60,7 @@ sub harvest_repo {
     my $self = shift;
     $self->_connect unless $self->has_schema;
     my $profiles = $self->schema->resultset('Profiles')->search();
-    while (my $p = $profiles->next) {
+    while ( my $p = $profiles->next ) {
         $self->fetch_repo($p);
     }
 }
@@ -62,8 +68,9 @@ sub harvest_repo {
 sub gen_graph {
     my $self = shift;
     $self->_connect unless $self->has_schema;
-    my $graph = githubexplorer::Gexf->new(schema => $self->schema);
-    $graph->profiles;
+    my $graph = githubexplorer::Gexf->new( schema => $self->schema );
+    my $xml = $graph->profiles;
+    $xml > io('crawl.gexf');
 }
 
 1;

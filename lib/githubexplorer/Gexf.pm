@@ -22,17 +22,17 @@ has graph => (
                             {
                                 id    => 0,
                                 type  => 'string',
-                                title => 'totalrepo'
+                                title => 'name'
                             },
                             {
                                 id    => 1,
                                 type  => 'string',
-                                title => 'accountlogin'
+                                title => 'followers_count'
                             },
                             {
                                 id    => 2,
                                 type  => 'string',
-                                title => 'forkedrepo'
+                                title => 'following_count'
                             },
                         ]
                     }
@@ -48,18 +48,30 @@ sub profiles {
 
     while ( my $profile = $profiles->next ) {
         my $node = {
-            id        => $profile->name,
-            label     => $profile->name,
-            attvalues => [
-                { id => 0, value => 'total' },
-                { id => 1, $profile->name },
-                { id => 2, 'forked' }
-            ]
+            id              => $profile->id,
+            label           => $profile->login,
+            name            => $profile->name,
+            followers_count => $profile->followers_count,
+            following_count => $profile->following_count,
         };
         push @{ $self->graph->{gexf}->{graph}->{nodes}->{node} }, $node;
     }
-    use YAML::Syck;
-    warn Dump $self->graph;
+
+    my $edges = $self->schema->resultset('Follow')->search();
+    my $id    = 0;
+    while ( my $edge = $edges->next ) {
+        my $e = {
+            cardinal => 1,
+            source   => $edge->origin,
+            target   => $edge->source,
+            type     => 'dir',
+            id       => $id++,
+        };
+        push @{ $self->graph->{gexf}->{graph}->{eges}->{edge} }, $e;
+    }
+
+    my $xml_out = XMLout( $self->graph, AttrIndent => 1, keepRoot => 1 );
+    return $xml_out;
 }
 
 1;

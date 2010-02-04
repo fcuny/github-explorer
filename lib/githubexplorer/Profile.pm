@@ -27,7 +27,7 @@ sub fetch_profile {
     if ( !$profile ) {
         my $followers = $github->followers();
         sleep(1);
-        if (!$followers || ref $followers ne 'ARRAY') { 
+        if ( !$followers || ref $followers ne 'ARRAY' ) {
             sleep(60);
             return;
         }
@@ -35,9 +35,9 @@ sub fetch_profile {
         say "fetch profile for $login ($depth) ...";
         sleep(1);
         my $desc = $github->show;
-        if (!$desc || ($desc && exists $desc->{error})) {
+        if ( !$desc || ( $desc && exists $desc->{error} ) ) {
             sleep(60);
-            $self->fetch_profile($login, $depth);
+            $self->fetch_profile( $login, $depth );
         }
         $profile = $self->_create_profile( $login, $github->show, $depth );
         return if !$profile;
@@ -47,37 +47,32 @@ sub fetch_profile {
         }
     }
 
-   if ( !$profile->done ) {
-       my $local_depth = $depth + 1;
-#       my $followers = $github->followpers();
-       sleep(1);
-       my $following = $github->following();
+    if ( !$profile->done ) {
+        my $local_depth = $depth + 1;
 
-       if (!$following || ref $following ne 'ARRAY') { 
-           sleep(60);
-           return;
-       }
+        sleep(1);
+        my $following = $github->following();
 
-       # foreach my $f (@$followers) {
-           # say $to->login . " is followed by " . $from;
-       #     $self->_create_relation($f, $profile, $local_depth);
-       # }
-       foreach my $f (@$following) {
-           # say $profile->login . " follow " . $f;
-           $self->_create_relation($profile, $f, $local_depth);
-       }
-       say "update profile for $login: done";
-       $profile->update( { done => 1 } );
-   }
+        if ( !$following || ref $following ne 'ARRAY' ) {
+            sleep(60);
+            return;
+        }
 
-   sleep(1);
-   $profile;
+        foreach my $f (@$following) {
+            $self->_create_relation( $profile, $f, $local_depth );
+        }
+        say "update profile for $login: done";
+        $profile->update( { done => 1 } );
+    }
+
+    sleep(1);
+    $profile;
 }
 
 sub _create_relation {
     my ( $self, $from, $to, $depth ) = @_;
 
-    say "-> create a relation from ".$from->login." to $to";
+    say "-> create a relation from " . $from->login . " to $to";
     if ( my $p = $self->_profile_exists($to) ) {
         if ( !$self->_relation_exists( $from->id, $p->id ) ) {
             $self->schema->txn_do(
@@ -125,21 +120,23 @@ sub _create_profile {
 
     $profile->{depth} = $depth;
 
-    my $profile_rs; my $err;
+    my $profile_rs;
+    my $err;
 
     try {
-    $self->schema->txn_do(
-        sub {
-            $profile_rs
-                = $self->schema->resultset('Profiles')->create($profile);
-        }
-    );
-}catch{
-    warn $_;
-    $err = 1;
-};
-return if $err;
-    say '-> '.$profile_rs->login . "'s profile created";
+        $self->schema->txn_do(
+            sub {
+                $profile_rs
+                    = $self->schema->resultset('Profiles')->create($profile);
+            }
+        );
+    }
+    catch {
+        warn $_;
+        $err = 1;
+    };
+    return if $err;
+    say '-> ' . $profile_rs->login . "'s profile created";
     return $profile_rs;
 }
 
