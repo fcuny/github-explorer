@@ -50,9 +50,13 @@ sub profiles {
         my $node = {
             id              => $profile->id,
             label           => $profile->login,
-            name            => $profile->name,
-            followers_count => $profile->followers_count,
-            following_count => $profile->following_count,
+            attvalues => {
+                attvalue => [
+                    {name            => $profile->name},
+                    {followers_count => $profile->followers_count},
+                    {following_count => $profile->following_count},
+                ]
+            },
         };
         push @{ $self->graph->{gexf}->{graph}->{nodes}->{node} }, $node;
     }
@@ -62,12 +66,12 @@ sub profiles {
     while ( my $edge = $edges->next ) {
         my $e = {
             cardinal => 1,
-            source   => $edge->origin,
-            target   => $edge->source,
+            source   => $edge->origin->id,
+            target   => $edge->dest->id,
             type     => 'dir',
             id       => $id++,
         };
-        push @{ $self->graph->{gexf}->{graph}->{eges}->{edge} }, $e;
+        push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $e;
     }
 
     my $xml_out = XMLout( $self->graph, AttrIndent => 1, keepRoot => 1 );
