@@ -15,6 +15,11 @@ sub fetch_repositories {
 
     my $repo_list = $github_profile->list();
 
+    while ( ref $repo_list ne 'ARRAYREF' ) {
+        sleep(60);
+        $repo_list = $github_profile->list();
+    }
+
     foreach my $repos (@$repo_list) {
         next if $self->_repo_exists( $profile, $repos->{name} );
         say "-> check " . $profile->login . "'s " . $repos->{name};
@@ -23,7 +28,8 @@ sub fetch_repositories {
             next;
         }
         my $repo_rs;
-        unless ( $repo_rs = $self->_repo_exists( $profile, $repos->{name} ) ) {
+        unless ( $repo_rs = $self->_repo_exists( $profile, $repos->{name} ) )
+        {
             $repo_rs = $self->_create_repo( $profile, $repos );
             say "== repository " . $repos->{name} . " created";
         }
@@ -35,15 +41,22 @@ sub fetch_repositories {
             token => $self->api_token,
         );
         my $langs = $api_repos->languages;
+        while ( ref $langs ne 'HASHREF' ) {
+            sleep(60);
+            $langs = $api_repos->languages;
+        }
+
         foreach my $lang ( keys %$langs ) {
             my $lang_rs = $self->_lang_exists($lang);
-            $self->schema->resultset('RepoLang')->create(
-                {
-                    repository => $repo_rs->id,
-                    language   => $lang_rs->name,
-                    size       => $langs->{$lang},
-                }
-            );
+            try {
+                $self->schema->resultset('RepoLang')->create(
+                    {
+                        repository => $repo_rs->id,
+                        language   => $lang_rs->name,
+                        size       => $langs->{$lang},
+                    }
+                );
+            };
         }
         sleep(1);
     }
