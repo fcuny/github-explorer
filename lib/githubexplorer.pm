@@ -1,13 +1,12 @@
 package githubexplorer;
 use 5.010;
-use lib ('/home/franck/code/git/net-github/lib');
 use YAML::Syck;
 use Moose;
 use githubexplorer::Schema;
 use githubexplorer::Gexf;
 use IO::All;
 
-with qw/githubexplorer::Profile githubexplorer::Repositorie/;
+with qw/githubexplorer::Profile githubexplorer::Repository/;
 
 has seed => (
     isa      => 'ArrayRef',
@@ -61,7 +60,7 @@ sub harvest_repo {
     $self->_connect unless $self->has_schema;
     my $profiles = $self->schema->resultset('Profiles')->search();
     while ( my $p = $profiles->next ) {
-        $self->fetch_repo($p);
+        $self->fetch_repositories($p);
     }
 }
 

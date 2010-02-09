@@ -126,6 +126,7 @@ sub _create_profile {
     try {
         $self->schema->txn_do(
             sub {
+
                 $profile_rs
                     = $self->schema->resultset('Profiles')->create($profile);
             }
