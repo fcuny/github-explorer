@@ -26,4 +26,5 @@ my $gh = githubexplorer->new(
 
 $gh->deploy           if $deploy;
 $gh->harvest_profiles if $profiles;
+$gh->harvest_repo     if $repo;
 $gh->gen_graph        if $graph;
