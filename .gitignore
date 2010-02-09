@@ -1,1 +1,4 @@
 *.sqlite
+*.conf
+*.sql
+*.yml
