@@ -15,7 +15,7 @@ sub fetch_network {
     );
 
     my $edges = $api_repos->network();
-    foreach my $edge (@$network) {
+    foreach my $edge (@$edges) {
         next if $edge->{owner} eq $repos->id_profile->login;
         my $profile = $self->schema->resultset('Profiles')
             ->find( { login => $edge->{owner} } );
