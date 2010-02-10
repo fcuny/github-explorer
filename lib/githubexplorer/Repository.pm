@@ -2,7 +2,6 @@ package githubexplorer::Repository;
 use 5.010;
 use Moose::Role;
 use Net::GitHub::V2::Repositories;
-use YAML::Syck;
 use Try::Tiny;
 
 sub fetch_repositories {

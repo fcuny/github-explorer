@@ -11,6 +11,7 @@ GetOptions(
     'profiles' => \my $profiles,
     'repo'     => \my $repo,
     'graph'    => \my $graph,
+    'network'  => \my $network,
     'conf=s'   => \my $conf,
 );
 
@@ -27,4 +28,5 @@ my $gh = githubexplorer->new(
 $gh->deploy           if $deploy;
 $gh->harvest_profiles if $profiles;
 $gh->harvest_repo     if $repo;
+$gh->graph_repo       if $network;
 $gh->gen_graph        if $graph;

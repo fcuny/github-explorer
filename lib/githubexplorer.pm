@@ -6,7 +6,8 @@ use githubexplorer::Schema;
 use githubexplorer::Gexf;
 use IO::All;
 
-with qw/githubexplorer::Profile githubexplorer::Repository/;
+with qw/githubexplorer::Profile githubexplorer::Repository
+githubexplorer::Network/;
 
 has seed => (
     isa      => 'ArrayRef',
@@ -70,6 +71,15 @@ sub gen_graph {
     my $graph = githubexplorer::Gexf->new( schema => $self->schema );
     my $xml = $graph->profiles;
     $xml > io('crawl.gexf');
+}
+
+sub graph_repo {
+    my $self = shift;
+    $self->_connect unless $self->has_schema;
+    my $repos = $self->schema->resultset('Repositories')->search({fork => 0});
+    while ( my $r = $repos->next ) {
+        $self->fetch_network($r);
+    }
 }
 
 1;
