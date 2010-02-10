@@ -25,15 +25,55 @@ has graph => (
                                 title => 'name'
                             },
                             {
-                                id    => 1,
-                                type  => 'string',
-                                title => 'followers_count'
+                                id => 1,
+                                type => 'string',
+                                title => 'type',
                             },
                             {
                                 id    => 2,
                                 type  => 'string',
+                                title => 'followers_count'
+                            },
+                            {
+                                id    => 3,
+                                type  => 'string',
                                 title => 'following_count'
                             },
+                            {
+                                id => 4,
+                                type => 'string',
+                                title => 'forks',
+                            },
+                            {
+                                id => 5,
+                                type => 'string',
+                                title => 'location',
+                            },
+                            {
+                                id => 6,
+                                type => 'string',
+                                title => 'public_gist_count',
+                            },
+                            {
+                                id => 7,
+                                type => 'string',
+                                title => 'public_repo_count',
+                            },
+                            {
+                                id => 8,
+                                type => 'string',
+                                title => 'language',
+                            },
+                            {
+                                id => 9,
+                                type => 'string',
+                                title => 'description',
+                            },
+                            {
+                                id => 10,
+                                type => 'string',
+                                title => 'watchers',
+                            }
                         ]
                     }
                 }
@@ -76,6 +116,14 @@ sub profiles {
 
     my $xml_out = XMLout( $self->graph, AttrIndent => 1, keepRoot => 1 );
     return $xml_out;
+}
+
+sub repositories {
+    my $self = shift;
+    my $repositories = $self->schema->resultset('Repositories')->search();
+
+    while (my $repo = $repositories->next) {
+    }
 }
 
 1;
