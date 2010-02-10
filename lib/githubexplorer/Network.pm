@@ -22,7 +22,7 @@ sub fetch_network {
             ->find( { login => $edge->{owner} } );
         next if !$profile;
 
-        say "** create relation between ".$repo->name." and ".$profile->login;
+        say "** create relation between ".$repos->name." and ".$profile->login;
         my $relation = $self->schema->resultset('Fork')->find_or_create(
             {
                 profile => $profile->id,
