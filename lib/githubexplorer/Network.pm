@@ -7,6 +7,11 @@ use YAML::Syck;
 sub fetch_network {
     my ( $self, $repos ) = @_;
 
+    # check fork
+    my $check = $self->schema->resultset('Fork')->search({repos=>
+            $repos->id});
+    return if $check->count > 0;
+
     say ">> start on ".$repos->name;
     my $api_repos = Net::GitHub::V2::Repositories->new(
         owner => $repos->id_profile->login,
@@ -16,6 +21,10 @@ sub fetch_network {
     );
 
     my $edges = $api_repos->network();
+    if (ref $edges ne 'ARRAY') {
+        sleep 60;
+        return;
+    }
     sleep(1);
     foreach my $edge (@$edges) {
         next if $edge->{owner} eq $repos->id_profile->login;

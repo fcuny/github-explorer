@@ -2,6 +2,7 @@ package githubexplorer::Repository;
 use 5.010;
 use Moose::Role;
 use Net::GitHub::V2::Repositories;
+use Try::Tiny;
 
 sub fetch_repositories {
     my ( $self, $profile ) = @_;
@@ -14,9 +15,9 @@ sub fetch_repositories {
 
     my $repo_list = $github_profile->list();
 
-    while ( ref $repo_list ne 'ARRAYREF' ) {
+    if ( ref $repo_list ne 'ARRAY' ) {
         sleep(60);
-        $repo_list = $github_profile->list();
+        return;
     }
 
     foreach my $repos (@$repo_list) {
@@ -40,9 +41,9 @@ sub fetch_repositories {
             token => $self->api_token,
         );
         my $langs = $api_repos->languages;
-        while ( ref $langs ne 'HASHREF' ) {
+        if ( ref $langs ne 'HASH' ) {
             sleep(60);
-            $langs = $api_repos->languages;
+            next;
         }
 
         foreach my $lang ( keys %$langs ) {

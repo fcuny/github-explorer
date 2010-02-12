@@ -69,7 +69,7 @@ sub gen_graph {
     my $self = shift;
     $self->_connect unless $self->has_schema;
     my $graph = githubexplorer::Gexf->new( schema => $self->schema );
-    my $xml = $graph->profiles;
+    my $xml = $graph->gen_gexf;
     $xml > io('crawl.gexf');
 }
 
