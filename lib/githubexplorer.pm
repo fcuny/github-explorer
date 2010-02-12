@@ -25,8 +25,8 @@ has seed => (
         return \@seeds;
     }
 );
-has api_login    => ( isa => 'Str',      is => 'ro', required => 1 );
-has api_token    => ( isa => 'Str',      is => 'ro', required => 1 );
+has api_login    => ( isa => 'Str|Undef',      is => 'ro', required => 1 );
+has api_token    => ( isa => 'Str|Undef',      is => 'ro', required => 1 );
 has connect_info => ( isa => 'ArrayRef', is => 'ro', required => 1 );
 has with_repo    => ( isa => 'Bool',     is => 'ro', default  => sub {0} );
 has schema => (
@@ -69,8 +69,7 @@ sub gen_graph {
     my $self = shift;
     $self->_connect unless $self->has_schema;
     my $graph = githubexplorer::Gexf->new( schema => $self->schema );
-    my $xml = $graph->gen_gexf;
-    $xml > io('crawl.gexf');
+    $graph->gen_gexf;
 }
 
 sub graph_repo {
@@ -82,14 +81,32 @@ sub graph_repo {
     }
 }
 
-sub extract_seed {
+sub gen_seed {
     my $self = shift;
     $self->_connect unless $self->has_schema;
     my $profiles = $self->schema->resultset('Profiles')
         ->search( { blog => { '!=' => undef }, blog => { '!=' => '' } } );
-    while ( my $pr = $profiles->next ) {
-    }
-}
 
+    open my $fh, '>', 'seed.csv';
+    while ( my $pr = $profiles->next ) {
+        my %languages;
+        my $forks = $self->schema->resultset('Fork')->search({profile =>
+                $pr->id});
+        while (my $fork = $forks->next) {
+            my $languages =
+            $self->schema->resultset('RepoLang')->search({repository =>
+                    $fork->repos->id});
+            while (my $lang = $languages->next) {
+                $languages{$lang->language->name}+=$lang->size;
+            }
+        }
+        my @sorted_lang = sort {$languages{$b} <=> $languages{$a}} keys %languages;
+        my $main_lang = shift @sorted_lang;
+        my $other_lang = join('|', @sorted_lang);
+        my $str = $profiles->blog.";;;github;".$main_lang.";".$other_lang.";".$profile->country."\n";
+        print $fh $str;
+    }
+    close $fh;
+}
 
 1;

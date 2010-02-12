@@ -15,6 +15,8 @@ __PACKAGE__->add_columns(
     following_count   => { data_type => 'int' },
     gravatar_id       => { data_type => 'varchar', is_nullable => 1 },
     location          => { data_type => 'varchar', is_nullable => 1 },
+    country          => { data_type => 'varchar', is_nullable => 1 },
+    city          => { data_type => 'varchar', is_nullable => 1 },
     name              => { data_type => 'varchar', is_nullable => 1 },
     public_gist_count => { data_type => 'int' },
     public_repo_count => { data_type => 'int' },

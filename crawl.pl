@@ -12,6 +12,7 @@ GetOptions(
     'repo'     => \my $repo,
     'graph'    => \my $graph,
     'network'  => \my $network,
+    'seed'  => \my $seed,
     'conf=s'   => \my $conf,
 );
 
@@ -30,3 +31,4 @@ $gh->harvest_profiles if $profiles;
 $gh->harvest_repo     if $repo;
 $gh->graph_repo       if $network;
 $gh->gen_graph        if $graph;
+$gh->gen_seed         if $seed;
