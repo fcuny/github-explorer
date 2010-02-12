@@ -7,7 +7,7 @@ use githubexplorer::Gexf;
 use IO::All;
 
 with qw/githubexplorer::Profile githubexplorer::Repository
-githubexplorer::Network/;
+    githubexplorer::Network/;
 
 has seed => (
     isa      => 'ArrayRef',
@@ -25,10 +25,10 @@ has seed => (
         return \@seeds;
     }
 );
-has api_login    => ( isa => 'Str|Undef',      is => 'ro', required => 1 );
-has api_token    => ( isa => 'Str|Undef',      is => 'ro', required => 1 );
-has connect_info => ( isa => 'ArrayRef', is => 'ro', required => 1 );
-has with_repo    => ( isa => 'Bool',     is => 'ro', default  => sub {0} );
+has api_login    => ( isa => 'Str|Undef', is => 'ro', required => 1 );
+has api_token    => ( isa => 'Str|Undef', is => 'ro', required => 1 );
+has connect_info => ( isa => 'ArrayRef',  is => 'ro', required => 1 );
+has with_repo    => ( isa => 'Bool',      is => 'ro', default  => sub {0} );
 has schema => (
     isa       => 'githubexplorer::Schema',
     is        => 'rw',
@@ -75,7 +75,8 @@ sub gen_graph {
 sub graph_repo {
     my $self = shift;
     $self->_connect unless $self->has_schema;
-    my $repos = $self->schema->resultset('Repositories')->search({fork => 0});
+    my $repos
+        = $self->schema->resultset('Repositories')->search( { fork => 0 } );
     while ( my $r = $repos->next ) {
         $self->fetch_network($r);
     }
@@ -90,20 +91,25 @@ sub gen_seed {
     open my $fh, '>', 'seed.csv';
     while ( my $pr = $profiles->next ) {
         my %languages;
-        my $forks = $self->schema->resultset('Fork')->search({profile =>
-                $pr->id});
-        while (my $fork = $forks->next) {
-            my $languages =
-            $self->schema->resultset('RepoLang')->search({repository =>
-                    $fork->repos->id});
-            while (my $lang = $languages->next) {
-                $languages{$lang->language->name}+=$lang->size;
+        my $forks = $self->schema->resultset('Fork')
+            ->search( { profile => $pr->id } );
+        while ( my $fork = $forks->next ) {
+            my $languages = $self->schema->resultset('RepoLang')
+                ->search( { repository => $fork->repos->id } );
+            while ( my $lang = $languages->next ) {
+                $languages{ $lang->language->name } += $lang->size;
             }
         }
-        my @sorted_lang = sort {$languages{$b} <=> $languages{$a}} keys %languages;
+        my @sorted_lang
+            = sort { $languages{$b} <=> $languages{$a} } keys %languages;
         my $main_lang = shift @sorted_lang;
-        my $other_lang = join('|', @sorted_lang);
-        my $str = $profiles->blog.";;;github;".$main_lang.";".$other_lang.";".$profile->country."\n";
+        my $other_lang = join( '|', @sorted_lang );
+        my $str
+            = $profiles->blog
+            . ";;;github;"
+            . $main_lang . ";"
+            . $other_lang . ";"
+            . $profile->country . "\n";
         print $fh $str;
     }
     close $fh;

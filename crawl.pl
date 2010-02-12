@@ -12,7 +12,7 @@ GetOptions(
     'repo'     => \my $repo,
     'graph'    => \my $graph,
     'network'  => \my $network,
-    'seed'  => \my $seed,
+    'seed'     => \my $seed,
     'conf=s'   => \my $conf,
 );
 
