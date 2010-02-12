@@ -11,11 +11,12 @@ my $conf = LoadFile(shift);
 
 my $schema = githubexplorer::Schema->connect(@{$conf->{connect_info}});
 
-my $profiles = $schema->resultset('Profiles')->search({id => {'>' => 55781}, location => {'!=' =>
+my $profiles = $schema->resultset('Profiles')->search({id => {'>' => 61498}, location => {'!=' =>
             undef}, location => {'!=' => ''}});
 
 my $geo = Geo::GeoNames->new();
 
+my $i = 0;
 while (my $pr = $profiles->next) {
     next if $pr->location =~ /^http/;
     next if $pr->country;
@@ -30,5 +31,8 @@ while (my $pr = $profiles->next) {
         next if $@;
         say "** fix with ".$pr->city . " in ".$pr->country;
     }
-    sleep(1);
+    if (++$i == 10) {
+        sleep(2);
+        $i = 0;
+    }
 }
