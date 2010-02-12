@@ -9,27 +9,32 @@ use YAML::Syck;
 
 my $conf = LoadFile(shift);
 
-my $schema = githubexplorer::Schema->connect(@{$conf->{connect_info}});
+my $schema = githubexplorer::Schema->connect( @{ $conf->{connect_info} } );
 
-my $profiles = $schema->resultset('Profiles')->search({id => {'>' => 61498}, location => {'!=' =>
-            undef}, location => {'!=' => ''}});
+my $profiles = $schema->resultset('Profiles')->search(
+    {
+        id       => { '>'  => 55781 },
+        location => { '!=' => undef },
+        location => { '!=' => '' }
+    }
+);
 
 my $geo = Geo::GeoNames->new();
 
-my $i = 0;
-while (my $pr = $profiles->next) {
+while ( my $pr = $profiles->next ) {
     next if $pr->location =~ /^http/;
     next if $pr->country;
     next if $pr->location =~ /earth/i;
-    say "-> process ".$pr->login." with ".$pr->location;
+    say "-> process " . $pr->login . " with " . $pr->location;
     my $result = $geo->search( q => $pr->location, maxRows => 1 );
     my $res = shift @$result;
     if ($res) {
         eval {
-            $pr->update({city => $res->{name}, country => $res->{countryName}});
+            $pr->update(
+                { city => $res->{name}, country => $res->{countryName} } );
         };
         next if $@;
-        say "** fix with ".$pr->city . " in ".$pr->country;
+        say "** fix with " . $pr->city . " in " . $pr->country;
     }
     if (++$i == 10) {
         sleep(2);
