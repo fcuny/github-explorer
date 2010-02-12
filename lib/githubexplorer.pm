@@ -82,4 +82,14 @@ sub graph_repo {
     }
 }
 
+sub extract_seed {
+    my $self = shift;
+    $self->_connect unless $self->has_schema;
+    my $profiles = $self->schema->resultset('Profiles')
+        ->search( { blog => { '!=' => undef }, blog => { '!=' => '' } } );
+    while ( my $pr = $profiles->next ) {
+    }
+}
+
+
 1;
