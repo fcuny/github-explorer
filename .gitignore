@@ -2,3 +2,5 @@
 *.conf
 *.sql
 *.yml
+*.gexf
+*.csv
