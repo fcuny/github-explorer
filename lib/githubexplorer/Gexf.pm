@@ -93,17 +93,18 @@ has graph => (
 sub gen_gexf {
     my $self = shift;
 
-    $self->basic_profiles;
-    my $basic_profiles = $self->dump_gexf;
-    $basic_profiles > io('basic_profiles.gexf');
+    $self->_average_by_langage();
+    # $self->basic_profiles;
+    # my $basic_profiles = $self->dump_gexf;
+    # $basic_profiles > io('basic_profiles.gexf');
 
-    $self->profiles_from_repositories;
-    my $profiles_from_repositories = $self->dump_gexf;
-    $profiles_from_repositories > io('profiles_from_repositories.gexf');
+    # $self->profiles_from_repositories;
+    # my $profiles_from_repositories = $self->dump_gexf;
+    # $profiles_from_repositories > io('profiles_from_repositories.gexf');
 
-    $self->repositories_from_profiles;
-    my $repositories_from_profiles = $self->dump_gexf;
-    $profiles_from_repositories > io('repositories_from_profiles.gexf');
+    # $self->repositories_from_profiles;
+    # my $repositories_from_profiles = $self->dump_gexf;
+    # $profiles_from_repositories > io('repositories_from_profiles.gexf');
 }
 
 sub dump_gefx {
@@ -266,6 +267,23 @@ sub _get_languages_for_profile {
     my @sorted_lang
         = sort { $languages{$b} <=> $languages{$a} } keys %languages;
     return ( \%languages, \@sorted_lang );
+}
+
+sub _average_by_langage {
+    my $self = shift;
+    my $hash_lang;
+    my $repositories = $self->schema->resultset('Repositories')->search();
+    while my ( $repos = $repositories->next ) {
+        my $lang = $self->schema->resultset('RepoLang')->search(
+            { repositories => $repos->id }, { order_by => 'size' }
+        )->first;
+            $hash_lang->{ $lang->name }->{repositories}++;
+            my $forks = $self->schema->resultset('Fork')
+            ->search( { repos => $repos->id } )->count;
+            $hash_lang->{ $lang->name }->{contributors} += $forks;
+    };
+    use YAML::Syck;
+    warn Dump $hash_lang;
 }
 
 #sub repositories {
