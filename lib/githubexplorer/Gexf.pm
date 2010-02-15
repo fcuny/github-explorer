@@ -2,8 +2,10 @@ package githubexplorer::Gexf;
 
 use Moose;
 use XML::Simple;
+use IO::All;
 use 5.010;
 
+has avg_contrib_by_lang => (is => 'rw', isa => 'HashRef', lazy => 1, default => sub {{}});
 has schema => ( is => 'ro', isa => 'Object', required => 1 );
 has id_edges => (
     is      => 'rw',
@@ -29,7 +31,7 @@ has graph => (
                         attribute => [
                             {
                                 id    => 0,
-                                type  => 'float',
+                                type  => 'string',
                                 title => 'name'
                             },
                             {
@@ -94,22 +96,25 @@ sub gen_gexf {
     my $self = shift;
 
     $self->_average_by_langage();
-    # $self->basic_profiles;
-    # my $basic_profiles = $self->dump_gexf;
-    # $basic_profiles > io('basic_profiles.gexf');
+#    $self->basic_profiles;
+#    my $basic_profiles = $self->dump_gexf;
+#    $basic_profiles > io('basic_profiles.gexf');
 
-    # $self->profiles_from_repositories;
-    # my $profiles_from_repositories = $self->dump_gexf;
-    # $profiles_from_repositories > io('profiles_from_repositories.gexf');
 
-    # $self->repositories_from_profiles;
-    # my $repositories_from_profiles = $self->dump_gexf;
-    # $profiles_from_repositories > io('repositories_from_profiles.gexf');
+    $self->profiles_from_repositories;
+    my $profiles_from_repositories = $self->dump_gexf;
+    $profiles_from_repositories > io('profiles_from_repositories.gexf');
+
+#    $self->repositories_from_profiles;
+#    my $repositories_from_profiles = $self->dump_gexf;
+#    $repositories_from_profiles > io('repositories_from_profiles.gexf');
 }
 
-sub dump_gefx {
+sub dump_gexf {
     my $self = shift;
     my $xml_out = XMLout( $self->graph, AttrIndent => 1, keepRoot => 1 );
+    say "total edges => ".scalar @{$self->graph->{gexf}->{graph}->{nodes}->{node}};
+    say "total nodes => ".scalar @{$self->graph->{gexf}->{graph}->{edges}->{edge}};
     $self->graph->{gexf}->{graph}->{nodes} = undef;
     $self->graph->{gexf}->{graph}->{edges} = undef;
     return $xml_out;
@@ -150,24 +155,43 @@ sub profiles_from_repositories {
         my $node = $self->_get_node_for_profile($profile);
         push @{ $self->graph->{gexf}->{graph}->{nodes}->{node} }, $node;
     }
+    my $edges;
     my $repositories = $self->schema->resultset('Repositories')->search();
     while ( my $repos = $repositories->next ) {
         my $forks = $self->schema->resultset('Fork')
             ->search( { repos => $repos->id } );
+        my $lang = $self->schema->resultset('RepoLang')->search({repository => $repos->id}, {order_by => 'size'})->first;
+        warn "on a ".$repos->name. " qui est en ".$lang."\n";
+        if ($lang && exists $self->avg_contrib_by_lang->{$lang}->{avg} && $forks <= $self->avg_contrib_by_lang->{$lang}->{avg}) {
+            warn ">>>> on skip pour ".$repos->name." qui est ecris en $lang";
+            next;
+        }
         my @profiles;
         while ( my $fork = $forks->next ) {
             push @profiles, $fork->profile->id;
         }
         foreach my $p (@profiles) {
-            map {
-                next if $_ eq $p;
-                my $e = {
-                    source => $p,
-                    target => $_,
-                    id     => $self->inc_edges,
-                };
-                push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $e;
-            } @profiles;
+            foreach my $t (@profiles) {
+                next if $t eq $p;
+                if (exists $edges->{$p}->{$t}) {
+                    $edges->{$p}->{$t}->{weight}++;
+                }elsif(exists $edges->{$t}->{$p}) {
+                    $edges->{$t}->{$p}->{weight}++;
+                }else{
+                    $edges->{$p}->{$t}->{weight}++;
+                }
+            }
+        }
+    }
+    foreach my $e (keys %$edges) {
+        foreach my $t (keys %{$edges->{$e}}) {
+            my $edge = {
+                id     => $self->inc_edges,
+                source => $e,
+                target => $t,
+                weight => $edges->{$e}->{$t}->{weight},
+            };
+            push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $edge;
         }
     }
     say "profiles_from_repositories done";
@@ -204,26 +228,48 @@ sub repositories_from_profiles {
                 },
             };
         }
-        my $forks = $self->schema->resultset('Fork')
-            ->search( { repos => $repos->id } );
-        while ( my $fork = $forks->next ) {
-            my $e = {
-                source => $fork->profile->id,
-                target => $fork->repos->name,
-                id     => $self->inc_edges,
-            };
-            push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $e;
-        }
     }
     map {
         push @{ $self->graph->{gexf}->{graph}->{nodes}->{node} },
             $nodes->{$_}
     } keys %$nodes;
-    say "repositories_from_profiles done";
-}
 
-sub stats_languages_by_country {
-    my $self = shift;
+    my $edges;
+    my $profiles = $self->schema->resultset('Profiles');
+    while ( my $profile = $profiles->next ) {
+        my $forks = $self->schema->resultset('Fork')->search({profile =>
+                $profile->id});
+        my @repos;
+        while (my $fork = $forks->next) {
+            push @repos, $fork->repos->name;
+        }
+        foreach my $r (@repos) {
+            foreach my $t (@repos) {
+                next if $t eq $r;
+                if (exists $edges->{$r}->{$t}) {
+                    $edges->{$r}->{$t}->{weight}++;
+                }elsif(exists $edges->{$t}->{$r}){
+                    $edges->{$t}->{$r}->{weight}++;
+                }else{
+                    $edges->{$r}->{$t}->{weight}++;
+                }
+            }
+        }
+    }
+    foreach my $e (keys %$edges) {
+        foreach my $t (keys %{$edges->{$e}}) {
+            next if $edges->{$e}->{$t}->{weight} < 10;
+            my $edge = {
+                id     => $self->inc_edges,
+                source => $e,
+                target => $t,
+                weight => $edges->{$e}->{$t}->{weight},
+            };
+            push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $edge;
+        }
+    }
+    say "edges => ".scalar @{ $self->graph->{gexf}->{graph}->{edges}->{edge} };
+    say "repositories_from_profiles done";
 }
 
 sub _get_node_for_profile {
@@ -251,7 +297,7 @@ sub _get_node_for_profile {
 }
 
 sub _get_languages_for_profile {
-    my ( $self, $profile ) = shift;
+    my ( $self, $profile ) = @_;
 
     my $forks = $self->schema->resultset('Fork')
         ->search( { profile => $profile->id } );
@@ -273,70 +319,17 @@ sub _average_by_langage {
     my $self = shift;
     my $hash_lang;
     my $repositories = $self->schema->resultset('Repositories')->search();
-    while my ( $repos = $repositories->next ) {
+    while ( my $repos = $repositories->next ) {
         my $lang = $self->schema->resultset('RepoLang')->search(
-            { repositories => $repos->id }, { order_by => 'size' }
+            { repository => $repos->id }, { order_by => 'size' }
         )->first;
-            $hash_lang->{ $lang->name }->{repositories}++;
-            my $forks = $self->schema->resultset('Fork')
-            ->search( { repos => $repos->id } )->count;
-            $hash_lang->{ $lang->name }->{contributors} += $forks;
+        next unless $lang;
+        $hash_lang->{ $lang->language->name }->{repositories}++;
+        my $forks = $self->schema->resultset('Fork')->search( { repos => $repos->id } )->count;
+        $hash_lang->{ $lang->language->name }->{contributors} += $forks;
+        $hash_lang->{$lang->language->name}->{avg} = int ($hash_lang->{$lang->language->name}->{contributors} / $hash_lang->{$lang->language->name}->{repositories});
     };
-    use YAML::Syck;
-    warn Dump $hash_lang;
+    $self->avg_contrib_by_lang($hash_lang);
 }
-
-#sub repositories {
-#    my $self = shift;
-#
-#    say "start repositories ...";
-#    my $repositories = $self->schema->resultset('Repositories')->search({fork => 0});
-#    while (my $repos = $repositories->next) {
-#
-#        next if $repos->name =~ /dotfiles/i;
-#        # available in forks ?
-#        my $check_fork = $self->schema->resultset('Fork')->search({repos => $repos->id});
-#        next if $check_fork->count < 1;
-#
-#        if (!grep {$_->{id} eq "repos_".$repos->name} @{$self->graph->{gexf}->{graph}->{nodes}->{node}}) {
-#            my $language = $self->schema->resultset('RepoLang')->search({repository => $repos->id}, {order_by => 'size'})->first;
-#            my $lang = $language ? $language->language->name : 'none';
-#            my $node = {
-#                id => "repos_".$repos->name,
-#                label => $repos->name,
-#                attvalues => {
-#                    attvalue => [
-#                        { for => 0,  value => $repos->name},
-#                        { for => 1,  value => "repository"},
-#                        { for => 4,  value => $repos->forks},
-#                        { for => 9,  value => $repos->description},
-#                        { for => 10, value => $repos->watchers},
-#                        { for => 8,  value => $lang},
-#                    ],
-#                },
-#            };
-#            push @{ $self->graph->{gexf}->{graph}->{nodes}->{node} }, $node;
-#        }
-#        my $e = {
-#            source   => $repos->id_profile->id,
-#            target   => "repos_".$repos->name,
-#            id       => $self->inc_edges,
-#        };
-#        push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $e;
-#    }
-#
-#    my $forks = $self->schema->resultset('Fork')->search();
-#
-#    while (my $fork = $forks->next) {
-#        next if $fork->repos->name =~ /dotfiles/i;
-#        my $e = {
-#            source   => $fork->profile->id,
-#            target   => "repos_".$fork->repos->name,
-#            id       => $self->inc_edges,
-#        };
-#        push @{ $self->graph->{gexf}->{graph}->{edges}->{edge} }, $e;
-#    }
-#    say " done";
-#}
 
 1;
