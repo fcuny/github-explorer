@@ -105,14 +105,47 @@ sub gen_seed {
         my $main_lang = shift @sorted_lang;
         my $other_lang = join( '|', @sorted_lang );
         my $str
-            = $profiles->blog
+            = $pr->blog
             . ";;;github;"
-            . $main_lang . ";"
-            . $other_lang . ";"
-            . $profile->country . "\n";
+            . ($main_lang || '') . ";"
+            . ($other_lang || '') . ";"
+            . ($pr->country || ''). "\n";
         print $fh $str;
     }
     close $fh;
+}
+
+sub stats_by_country {
+    my $self = shift;
+    $self->_connect unless $self->has_schema;
+    my $repositories = $self->schema->resultset('Repositories')->search();
+
+    my $countries;
+    while (my $repos = $repositories->next) {
+        next if !$repos->id_profile->country;
+        my $languages = $self->schema->resultset('RepoLang')
+            ->search( { repository => $repos->id } );
+        while ( my $lang = $languages->next ) {
+            $countries->{ $repos->id_profile->country }->{$lang->language->name} += $lang->size;
+        }
+    }
+    foreach my $country (keys %$countries) {
+        my $total = $self->schema->resultset('Profiles')->search({country => $country})->count;
+        $countries->{$country}->{total_dev} = $total;
+        my $total_bytes;
+        map {$total_bytes += $countries->{$country}->{$_}} keys %{$countries->{$country}};
+        foreach my $lang (keys %{$countries->{$country}}) {
+            $countries->{$country}->{"pct_".$lang} = ($countries->{$country}->{$lang} / $total_bytes) * 100;
+        }
+    }
+    my @sorted_countries = sort {$countries->{$b}->{total_dev} <=> $countries->{$a}->{total_dev}} keys %$countries;
+
+    my $final;
+    for ( 0 .. 19) {
+        push @$final, {$sorted_countries[$_] => $countries->{$sorted_countries[$_]} };
+    }
+    warn Dump $final;
+    DumpFile('countries.yaml', $final);
 }
 
 1;

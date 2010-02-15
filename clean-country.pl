@@ -36,5 +36,8 @@ while ( my $pr = $profiles->next ) {
         next if $@;
         say "** fix with " . $pr->city . " in " . $pr->country;
     }
-    sleep(1);
+    if (++$i == 10) {
+        sleep(2);
+        $i = 0;
+    }
 }
