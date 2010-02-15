@@ -13,6 +13,7 @@ GetOptions(
     'graph'    => \my $graph,
     'network'  => \my $network,
     'seed'     => \my $seed,
+    'stats'     => \my $stats,
     'conf=s'   => \my $conf,
 );
 
@@ -32,3 +33,4 @@ $gh->harvest_repo     if $repo;
 $gh->graph_repo       if $network;
 $gh->gen_graph        if $graph;
 $gh->gen_seed         if $seed;
+$gh->stats_by_country         if $stats;
