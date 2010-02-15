@@ -160,10 +160,13 @@ sub profiles_from_repositories {
     while ( my $repos = $repositories->next ) {
         my $forks = $self->schema->resultset('Fork')
             ->search( { repos => $repos->id } );
-        my $lang = $self->schema->resultset('RepoLang')->search({repository => $repos->id}, {order_by => 'size'})->first;
-        warn "on a ".$repos->name. " qui est en ".$lang."\n";
-        if ($lang && exists $self->avg_contrib_by_lang->{$lang}->{avg} && $forks <= $self->avg_contrib_by_lang->{$lang}->{avg}) {
-            warn ">>>> on skip pour ".$repos->name." qui est ecris en $lang";
+        my $language;
+        my $lang_rs = $self->schema->resultset('RepoLang')->search({repository => $repos->id}, {order_by => 'size'})->first;
+        if ($lang_rs) {
+            $language = $lang_rs->language->name;
+        }
+        if ($language && exists $self->avg_contrib_by_lang->{$language}->{avg} && $forks <= $self->avg_contrib_by_lang->{$language}->{avg}){
+            warn ">>>>> on skip pour ".$repos->name."\n";
             next;
         }
         my @profiles;
