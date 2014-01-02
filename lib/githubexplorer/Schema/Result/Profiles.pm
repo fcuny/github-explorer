@@ -11,6 +11,7 @@ __PACKAGE__->add_columns(
     company           => { data_type => 'varchar', is_nullable => 1 },
     created_at        => { data_type => 'timestamp' },
     email             => { data_type => 'varchar', is_nullable => 1 },
+    main_language             => { data_type => 'varchar', is_nullable => 1 },
     followers_count   => { data_type => 'int' },
     following_count   => { data_type => 'int' },
     gravatar_id       => { data_type => 'varchar', is_nullable => 1 },

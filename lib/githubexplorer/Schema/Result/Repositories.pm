@@ -10,6 +10,7 @@ __PACKAGE__->add_columns(
     name        => { data_type => 'varchar' },
     homepage    => { data_type => 'varchar', is_nullable       => 1 },
     url         => { data_type => 'varchar', is_nullable       => 1 },
+    main_language         => { data_type => 'varchar', is_nullable       => 1 },
     watchers    => { data_type => 'int' },
     forks       => { data_type => 'int' },
     fork        => { data_type => 'bool' },

@@ -1,6 +1,2 @@
-*.sqlite
 *.conf
-*.sql
 *.yml
-*.gexf
-*.csv
