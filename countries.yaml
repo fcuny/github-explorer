@@ -1,0 +1,1003 @@
+--- 
+- 
+  United States: 
+    ASP: 395029
+    ActionScript: 15080856
+    Arc: 280103
+    C: 1577823163
+    C Sharp: 117902757
+    C++: 293136772
+    Clojure: 4710149
+    CoffeeScript: 124853
+    ColdFusion: 1939836
+    Common Lisp: 3203154
+    D: 6504232
+    Eiffel: 89714
+    Emacs Lisp: 129773224
+    Erlang: 73121197
+    FORTRAN: 1480093
+    Go: 345793
+    Groovy: 3909738
+    HaXe: 9048
+    Haskell: 1057092
+    Io: 1940106
+    Java: 312996630
+    JavaScript: 470190947
+    Lua: 10181564
+    Nu: 561253
+    OCaml: 2941252
+    Objective-C: 53453243
+    Objective-J: 35549874
+    PHP: 247341434
+    Perl: 158390839
+    Pure Data: 434
+    Python: 153826480
+    R: 674693
+    Ruby: 341690659
+    Scala: 14140647
+    Scheme: 1297978
+    Self: 3528
+    Shell: 21641882
+    Smalltalk: 168003
+    SuperCollider: 103311
+    Tcl: 5715620
+    VHDL: 6874
+    VimL: 42872409
+    Visual Basic: 814737
+    error: 500
+    ooc: 844724
+    pct_ASP: 0.0096155268201776
+    pct_ActionScript: 0.367087923517606
+    pct_Arc: 0.00681807641695219
+    pct_C: 38.4062966043606
+    pct_C Sharp: 2.86990859432189
+    pct_C++: 7.13533561623649
+    pct_Clojure: 0.114651238356001
+    pct_CoffeeScript: 0.00303908667485079
+    pct_ColdFusion: 0.0472181664757424
+    pct_Common Lisp: 0.0779689926465124
+    pct_D: 0.158321584594188
+    pct_Eiffel: 0.00218375707389942
+    pct_Emacs Lisp: 3.15885141575154
+    pct_Erlang: 1.77986636646168
+    pct_FORTRAN: 0.0360274155514079
+    pct_Go: 0.00841705764824778
+    pct_Groovy: 0.0951681790422159
+    pct_HaXe: 0.000220240252409233
+    pct_Haskell: 0.0257310133620448
+    pct_Io: 0.0472247386318156
+    pct_Java: 7.61875075093273
+    pct_JavaScript: 11.4450677329594
+    pct_Lua: 0.247832695101764
+    pct_Nu: 0.0136616381946772
+    pct_OCaml: 0.0715939525728516
+    pct_Objective-C: 1.30112242820646
+    pct_Objective-J: 0.865330815967775
+    pct_PHP: 6.02061669489629
+    pct_Perl: 3.85544190546753
+    pct_Pure Data: 1.05641323547311e-05
+    pct_Python: 3.74433938797788
+    pct_R: 0.0164229173981811
+    pct_Ruby: 8.31720125818271
+    pct_Scala: 0.344201996519658
+    pct_Scheme: 0.0315944962800212
+    pct_Self: 8.58761726900723e-05
+    pct_Shell: 0.526791948971136
+    pct_Smalltalk: 0.00408941458062648
+    pct_SuperCollider: 0.00251472598548301
+    pct_Tcl: 0.139125728500802
+    pct_VHDL: 0.000167322225360419
+    pct_VimL: 1.04357097475153
+    pct_Visual Basic: 0.0198317730467663
+    pct_error: 1.21706593948515e-05
+    pct_ooc: 0.0205616961733131
+    pct_total_dev: 0.000107539946412908
+    total_dev: 4418
+- 
+  United Kingdom: 
+    ASP: 98889
+    ActionScript: 1217154
+    C: 240745636
+    C Sharp: 31451672
+    C++: 7459863
+    Clojure: 52566
+    ColdFusion: 11767
+    Common Lisp: 4313
+    D: 2216
+    Emacs Lisp: 8279989
+    Erlang: 3779174
+    Go: 310566
+    Groovy: 2916426
+    Haskell: 653417
+    Io: 3888
+    Java: 11324614
+    JavaScript: 44303669
+    Lua: 1109323
+    Nu: 11455
+    OCaml: 434
+    Objective-C: 2321278
+    PHP: 70879422
+    Perl: 10542260
+    Pure Data: 1800
+    Python: 69184700
+    Ruby: 47578927
+    Scala: 404447
+    Scheme: 144606
+    Shell: 2284235
+    SuperCollider: 23473
+    Tcl: 51253
+    VHDL: 857
+    VimL: 5845275
+    Visual Basic: 176610
+    pct_ASP: 0.017559134552591
+    pct_ActionScript: 0.216122833249647
+    pct_C: 42.7477779679548
+    pct_C Sharp: 5.58468728121386
+    pct_C++: 1.32460372903857
+    pct_Clojure: 0.00933383355976394
+    pct_ColdFusion: 0.00208939655856908
+    pct_Common Lisp: 0.000765833887746107
+    pct_D: 0.00039348200678075
+    pct_Emacs Lisp: 1.47022864974844
+    pct_Erlang: 0.671045563850917
+    pct_Go: 0.0551453668401942
+    pct_Groovy: 0.517852506817489
+    pct_Haskell: 0.116023390083329
+    pct_Io: 0.000690369152691135
+    pct_Java: 2.01084469437607
+    pct_JavaScript: 7.86674033658398
+    pct_Lua: 0.196975920671499
+    pct_Nu: 0.00203399656483461
+    pct_OCaml: 7.70628117973129e-05
+    pct_Objective-C: 0.41217559825632
+    pct_PHP: 12.5856395343049
+    pct_Perl: 1.87192672418972
+    pct_Pure Data: 0.000319615348468118
+    pct_Python: 12.2847177773123
+    pct_Ruby: 8.44830851824675
+    pct_Scala: 0.0718152604677138
+    pct_Scheme: 0.0256768317114337
+    pct_Shell: 0.405598091948929
+    pct_SuperCollider: 0.00416796170810674
+    pct_Tcl: 0.00910069191946469
+    pct_VHDL: 0.000152172418687321
+    pct_VimL: 1.03791089223165
+    pct_Visual Basic: 0.0313595926071968
+    pct_total_dev: 0.000139387804748596
+    total_dev: 785
+- 
+  Japan: 
+    ActionScript: 557725
+    C: 48735034
+    C Sharp: 43268
+    C++: 10104731
+    Common Lisp: 51988
+    D: 17079
+    Eiffel: 2500
+    Emacs Lisp: 55053697
+    Erlang: 349085
+    FORTRAN: 5901639
+    Go: 144554
+    Haskell: 96869
+    Java: 3085322
+    JavaScript: 9256570
+    Lua: 270
+    Objective-C: 6138253
+    PHP: 20028803
+    Perl: 15178381
+    Python: 11679035
+    Ruby: 40246019
+    Scala: 94997
+    Scheme: 4528701
+    Shell: 128672
+    Smalltalk: 571408
+    Tcl: 50913
+    VimL: 624289
+    pct_ActionScript: 0.239706042191521
+    pct_C: 20.9459538593558
+    pct_C Sharp: 0.0185962634515984
+    pct_C++: 4.3429379630104
+    pct_Common Lisp: 0.0223440543663146
+    pct_D: 0.00734042672390334
+    pct_Eiffel: 0.00107448134022825
+    pct_Emacs Lisp: 23.6616680548321
+    pct_Erlang: 0.150034127461432
+    pct_FORTRAN: 2.53648039290533
+    pct_Go: 0.062128230262142
+    pct_Haskell: 0.0416335731786283
+    pct_Java: 1.32604836703829
+    pct_JavaScript: 3.97840469580666
+    pct_Lua: 0.000116043984744651
+    pct_Objective-C: 2.63817532404004
+    pct_PHP: 8.60823003624307
+    pct_Perl: 6.52355486375003
+    pct_Python: 5.01956207174908
+    pct_Ruby: 17.2974385735887
+    pct_Scala: 0.0408290015510654
+    pct_Scheme: 1.94640188798921
+    pct_Shell: 0.05530226520394
+    pct_Smalltalk: 0.245586893462859
+    pct_Tcl: 0.0218820273900164
+    pct_VimL: 0.268314752563903
+    pct_total_dev: 0.000255726558974325
+    total_dev: 595
+- 
+  Germany: 
+    ASP: 127830
+    ActionScript: 1399289
+    C: 10666536
+    C Sharp: 56708
+    C++: 8595235
+    Clojure: 26139
+    ColdFusion: 126937
+    Common Lisp: 138149
+    D: 2770
+    Emacs Lisp: 8097369
+    Erlang: 925568
+    Groovy: 19574
+    HaXe: 3067
+    Haskell: 22829
+    Java: 7801897
+    JavaScript: 36055269
+    Lua: 50583
+    Objective-C: 2949955
+    Objective-J: 4746
+    PHP: 57434864
+    Perl: 5940857
+    Python: 12302973
+    Ruby: 23713148
+    Scala: 79912
+    Shell: 699653
+    SuperCollider: 52391
+    VimL: 6399497
+    ooc: 7236
+    pct_ASP: 0.0695857092346632
+    pct_ActionScript: 0.761718825700248
+    pct_C: 5.80644975856268
+    pct_C Sharp: 0.0308696424882992
+    pct_C++: 4.67891358455449
+    pct_Clojure: 0.0142290608909087
+    pct_ColdFusion: 0.0690995945640338
+    pct_Common Lisp: 0.0752029738328991
+    pct_D: 0.00150788089321769
+    pct_Emacs Lisp: 4.40789458499394
+    pct_Erlang: 0.503843430532025
+    pct_Groovy: 0.0106553287378495
+    pct_HaXe: 0.00166955620920529
+    pct_Haskell: 0.0124272248777136
+    pct_Java: 4.24705105312361
+    pct_JavaScript: 19.6270943050267
+    pct_Lua: 0.0275354293218882
+    pct_Objective-C: 1.60584143695018
+    pct_Objective-J: 0.00258353888780186
+    pct_PHP: 31.2653191444608
+    pct_Perl: 3.23397283741464
+    pct_Python: 6.69726278573037
+    pct_Ruby: 12.9085208618207
+    pct_Scala: 0.0435010028659971
+    pct_Shell: 0.380864039921457
+    pct_SuperCollider: 0.0285196346124794
+    pct_VimL: 3.48363871931549
+    pct_ooc: 0.0039389986076979
+    pct_total_dev: 0.000289055867977831
+    total_dev: 531
+- 
+  Canada: 
+    ASP: 369
+    ActionScript: 3630296
+    C: 20273798
+    C Sharp: 1869395
+    C++: 14240129
+    Clojure: 107988
+    Emacs Lisp: 23692501
+    Erlang: 56935001
+    Haskell: 13067
+    Java: 38024235
+    JavaScript: 31344591
+    Lua: 61697
+    OCaml: 47332
+    Objective-C: 5067709
+    Objective-J: 83054
+    PHP: 54154935
+    Perl: 1659168
+    Python: 4709633
+    Ruby: 27143889
+    Scala: 46226
+    Scheme: 58782
+    Shell: 723047
+    Smalltalk: 14576
+    Tcl: 59410
+    VimL: 4224519
+    ooc: 24688
+    pct_ASP: 0.000128031426809145
+    pct_ActionScript: 1.25959885262746
+    pct_C: 7.03437204547532
+    pct_C Sharp: 0.648621433929219
+    pct_C++: 4.94087814042354
+    pct_Clojure: 0.0374684491009918
+    pct_Emacs Lisp: 8.22055476343387
+    pct_Erlang: 19.754659656938
+    pct_Haskell: 0.00453383917104363
+    pct_Java: 13.1932169657893
+    pct_JavaScript: 10.8755899958783
+    pct_Lua: 0.0214069239562163
+    pct_OCaml: 0.0164227194952045
+    pct_Objective-C: 1.75833608109362
+    pct_Objective-J: 0.0288171331225115
+    pct_PHP: 18.7900639479851
+    pct_Perl: 0.575679258417549
+    pct_Python: 1.63409493966784
+    pct_Ruby: 9.41807815127116
+    pct_Scala: 0.0160389721834134
+    pct_Scheme: 0.0203955103812877
+    pct_Shell: 0.250874631599111
+    pct_Smalltalk: 0.0050574148432794
+    pct_Tcl: 0.0206134066849087
+    pct_VimL: 1.46577559661882
+    pct_ooc: 0.00856596169394085
+    pct_total_dev: 0.000157176792261633
+    total_dev: 453
+- 
+  Australia: 
+    ActionScript: 2846378
+    C: 1956913
+    C Sharp: 585693
+    C++: 2117787
+    Clojure: 53431
+    D: 5323
+    Emacs Lisp: 7933524
+    Go: 15911
+    Groovy: 418768
+    Haskell: 74970
+    Java: 24166996
+    JavaScript: 11364653
+    Lua: 27691
+    Objective-C: 2416771
+    PHP: 11001571
+    Perl: 2051344
+    Python: 9012327
+    Ruby: 28664247
+    Scala: 601315
+    Shell: 253687
+    VimL: 3100662
+    Visual Basic: 552
+    pct_ActionScript: 2.61926566501188
+    pct_C: 1.80077102560356
+    pct_C Sharp: 0.538960589611712
+    pct_C++: 1.94880889850488
+    pct_Clojure: 0.0491677436191714
+    pct_D: 0.00489827813974752
+    pct_Emacs Lisp: 7.30050858169496
+    pct_Go: 0.0146414622358675
+    pct_Groovy: 0.385354525648279
+    pct_Haskell: 0.0689881480625345
+    pct_Java: 22.2387127954472
+    pct_JavaScript: 10.4578679984437
+    pct_Lua: 0.0254815367213505
+    pct_Objective-C: 2.22393698254288
+    pct_PHP: 10.1237562900959
+    pct_Perl: 1.88766738160853
+    pct_Python: 8.29323395310094
+    pct_Ruby: 26.3771283998541
+    pct_Scala: 0.553336111140762
+    pct_Shell: 0.233445329032149
+    pct_VimL: 2.85326035944877
+    pct_Visual Basic: 0.000507955952121103
+    pct_total_dev: 0.000299988478970071
+    total_dev: 326
+- 
+  Brazil: 
+    ActionScript: 4188821
+    C: 1257397
+    C Sharp: 314318
+    C++: 113899
+    Erlang: 6268
+    Groovy: 30706
+    Java: 8794008
+    JavaScript: 13414409
+    Lua: 239820
+    Objective-C: 61234
+    PHP: 8658710
+    Perl: 574637
+    Pure Data: 2782151
+    Python: 11741176
+    Ruby: 11787198
+    Scala: 18647
+    Scheme: 115461
+    Shell: 653201
+    VimL: 4318300
+    error: 0
+    pct_ActionScript: 6.06454251994956
+    pct_C: 1.8204496136161
+    pct_C Sharp: 0.455067159896665
+    pct_C++: 0.164902087838018
+    pct_Erlang: 0.00907476173248842
+    pct_Groovy: 0.0444559083850972
+    pct_Java: 12.7318965018502
+    pct_JavaScript: 19.4212771948226
+    pct_Lua: 0.347209533931936
+    pct_Objective-C: 0.0886541097522648
+    pct_PHP: 12.5360131079634
+    pct_Perl: 0.831954986865339
+    pct_Pure Data: 4.02797661595475
+    pct_Python: 16.9987834491403
+    pct_Ruby: 17.0654137434052
+    pct_Scala: 0.0269969818164824
+    pct_Scheme: 0.167163539309963
+    pct_Shell: 0.945699336059854
+    pct_VimL: 6.2520012108176
+    pct_error: 0
+    pct_total_dev: 0.000467636892085794
+    total_dev: 323
+- 
+  Russia: 
+    ASP: 9013
+    ActionScript: 116719
+    C: 7061670
+    C Sharp: 1062529
+    C++: 6441001
+    Clojure: 510
+    ColdFusion: 169639
+    Common Lisp: 218029
+    Eiffel: 338
+    Emacs Lisp: 42530
+    Erlang: 94257
+    Haskell: 45707
+    Io: 392
+    Java: 1937734
+    JavaScript: 8837475
+    Lua: 42936
+    Objective-C: 618182
+    PHP: 10103512
+    Perl: 296189
+    Python: 1613754
+    Ruby: 6554008
+    Scala: 82131
+    Scheme: 290
+    Shell: 38362
+    Smalltalk: 2418
+    Tcl: 100
+    VimL: 2214067
+    Visual Basic: 190388
+    pct_ASP: 0.0188579683023769
+    pct_ActionScript: 0.244212049515714
+    pct_C: 14.7751857341447
+    pct_C Sharp: 2.22313749055323
+    pct_C++: 13.4765552750004
+    pct_Clojure: 0.00106707687054391
+    pct_ColdFusion: 0.354936967141565
+    pct_Common Lisp: 0.456183731387878
+    pct_Eiffel: 0.000707199965184002
+    pct_Emacs Lisp: 0.0889858417730047
+    pct_Erlang: 0.197214636444818
+    pct_Haskell: 0.0956331029842165
+    pct_Io: 0.000820184575006298
+    pct_Java: 4.0543355542481
+    pct_JavaScript: 18.4907160127648
+    pct_Lua: 0.0898353186542612
+    pct_Objective-C: 1.29342689016975
+    pct_PHP: 21.1396548362016
+    pct_Perl: 0.619718492567705
+    pct_Python: 3.37646974146611
+    pct_Ruby: 13.7130006787446
+    pct_Scala: 0.171843314616945
+    pct_Scheme: 0.000606769200897516
+    pct_Shell: 0.0802651037407949
+    pct_Smalltalk: 0.0050591997509317
+    pct_Tcl: 0.000209230758930178
+    pct_VimL: 4.63250918732262
+    pct_Visual Basic: 0.398350257311987
+    pct_total_dev: 0.000502153821432427
+    total_dev: 240
+- 
+  France: 
+    ActionScript: 142533
+    C: 1305696
+    C++: 5543414
+    Clojure: 254568
+    D: 5884
+    Erlang: 5628603
+    Groovy: 73169
+    Io: 5198
+    Java: 951687
+    JavaScript: 15139796
+    Lua: 340406
+    OCaml: 47292
+    Objective-C: 665641
+    PHP: 36252284
+    Perl: 2225926
+    Python: 3083333
+    Ruby: 5329996
+    Scala: 88500
+    Shell: 259920
+    Smalltalk: 457312
+    Tcl: 27598
+    VimL: 28866
+    pct_ActionScript: 0.183068238473003
+    pct_C: 1.6770254376267
+    pct_C++: 7.11991634292818
+    pct_Clojure: 0.326965091112903
+    pct_D: 0.0075573622611967
+    pct_Erlang: 7.22933240915338
+    pct_Groovy: 0.0939776749302347
+    pct_Io: 0.00667626938030259
+    pct_Java: 1.22233912615083
+    pct_JavaScript: 19.4454321775351
+    pct_Lua: 0.437214727716676
+    pct_OCaml: 0.0607414643195979
+    pct_Objective-C: 0.854943945089264
+    pct_PHP: 46.5621419075093
+    pct_Perl: 2.85896144605991
+    pct_Python: 3.96020809872576
+    pct_Ruby: 6.84580398074938
+    pct_Scala: 0.113668687987068
+    pct_Shell: 0.333839156854223
+    pct_Smalltalk: 0.587367853567706
+    pct_Tcl: 0.0354466491646
+    pct_VimL: 0.037075258163104
+    pct_total_dev: 0.000296694541525567
+    total_dev: 231
+- 
+  Sweden: 
+    ActionScript: 185851
+    C: 13744646
+    C Sharp: 2586092
+    C++: 3000651
+    Clojure: 25
+    Common Lisp: 972546
+    D: 6337
+    Emacs Lisp: 18390406
+    Erlang: 55487531
+    FORTRAN: 35
+    Groovy: 6525
+    Haskell: 20604
+    Java: 48067674
+    JavaScript: 7350822
+    Lua: 41401
+    Nu: 21
+    OCaml: 59
+    Objective-C: 498268
+    Objective-J: 94861
+    PHP: 3570582
+    Perl: 824948
+    Python: 4610041
+    R: 21
+    Ruby: 2734082
+    Scala: 754021
+    Scheme: 963159
+    Shell: 898437
+    Tcl: 9372
+    VHDL: 219
+    Visual Basic: 279
+    pct_ActionScript: 0.1127601906163
+    pct_C: 8.33920131133845
+    pct_C Sharp: 1.56904308758784
+    pct_C++: 1.82056582279886
+    pct_Clojure: 1.51680903810445e-05
+    pct_Common Lisp: 0.59006662510893
+    pct_D: 0.00384480754978715
+    pct_Emacs Lisp: 11.1578936140841
+    pct_Erlang: 33.6655954091602
+    pct_FORTRAN: 2.12353265334622e-05
+    pct_Groovy: 0.0039588715894526
+    pct_Haskell: 0.0125009333684416
+    pct_Java: 29.1637929455432
+    pct_JavaScript: 4.4599172988388
+    pct_Lua: 0.0251189643946249
+    pct_Nu: 1.27411959200773e-05
+    pct_OCaml: 3.57966932992649e-05
+    pct_Objective-C: 0.30231096231929
+    pct_Objective-J: 0.0575544088654503
+    pct_PHP: 2.16635641955722
+    pct_Perl: 0.500515432946474
+    pct_Python: 2.79702074193282
+    pct_R: 1.27411959200773e-05
+    pct_Ruby: 1.65883211540747
+    pct_Scala: 0.457482347088221
+    pct_Scheme: 0.584371310532656
+    pct_Shell: 0.545102944706978
+    pct_Tcl: 0.00568621372204595
+    pct_VHDL: 0.000132872471737949
+    pct_Visual Basic: 0.000169275888652456
+    pct_total_dev: 0.000107390079897795
+    total_dev: 177
+- 
+  Spain: 
+    ActionScript: 114726
+    C: 3884569
+    Common Lisp: 52852
+    D: 1628991
+    Erlang: 398355
+    Haskell: 7263
+    Java: 331602
+    JavaScript: 2786835
+    Lua: 470312
+    OCaml: 594774
+    Objective-C: 425000
+    PHP: 3151204
+    Perl: 29682
+    Python: 4232053
+    Ruby: 6088821
+    Scala: 10828
+    Scheme: 11257
+    Shell: 93429
+    SuperCollider: 3419
+    VimL: 851462
+    pct_ActionScript: 0.455847868253823
+    pct_C: 15.4347968005063
+    pct_Common Lisp: 0.210000100526045
+    pct_D: 6.47257007787828
+    pct_Erlang: 1.58280840923811
+    pct_Haskell: 0.0288585243722218
+    pct_Java: 1.31757461088772
+    pct_JavaScript: 11.0731028182377
+    pct_Lua: 1.86871958068957
+    pct_OCaml: 2.36325209623625
+    pct_Objective-C: 1.68867862566354
+    pct_PHP: 12.5208725644834
+    pct_Perl: 0.117937315216341
+    pct_Python: 16.8154763382947
+    pct_Ruby: 24.1930867722148
+    pct_Scala: 0.0430235580204348
+    pct_Scheme: 0.0447281300919869
+    pct_Shell: 0.371227188981455
+    pct_SuperCollider: 0.0135849228732791
+    pct_VimL: 3.38316630579936
+    pct_total_dev: 0.000687391534681863
+    total_dev: 173
+- 
+  Netherlands: 
+    ActionScript: 14645
+    C: 4338061
+    C Sharp: 154229
+    C++: 8706940
+    Clojure: 909346
+    Common Lisp: 2499528
+    Emacs Lisp: 6215584
+    Go: 16517
+    Haskell: 66960
+    Java: 1467594
+    JavaScript: 15865492
+    Objective-C: 10676
+    PHP: 1296959
+    Perl: 941674
+    Python: 732811
+    R: 238
+    Ruby: 2757484
+    Scala: 14329
+    Shell: 508564
+    pct_ActionScript: 0.0314825905358797
+    pct_C: 9.32559905651545
+    pct_C Sharp: 0.33154854597188
+    pct_C++: 18.717448060121
+    pct_Clojure: 1.95483562809423
+    pct_Common Lisp: 5.37327528555591
+    pct_Emacs Lisp: 13.3617402535586
+    pct_Go: 0.035506858851562
+    pct_Haskell: 0.143944982060943
+    pct_Java: 3.15491027483194
+    pct_JavaScript: 34.1063016924735
+    pct_Objective-C: 0.0229503678088803
+    pct_PHP: 2.78809348848235
+    pct_Perl: 2.02433164631505
+    pct_Python: 1.5753355174591
+    pct_R: 0.000511632403382681
+    pct_Ruby: 5.92780742104743
+    pct_Scala: 0.0308032802860103
+    pct_Shell: 1.0932681579576
+    pct_total_dev: 0.000305259669245129
+    total_dev: 142
+- 
+  Norway: 
+    ActionScript: 446498
+    C: 495566
+    C Sharp: 742719
+    C++: 828913
+    Clojure: 1286
+    Emacs Lisp: 238755
+    Groovy: 8174
+    Java: 2544787
+    JavaScript: 11732294
+    Lua: 128803
+    Objective-C: 109345
+    PHP: 427968
+    Perl: 1985294
+    Python: 1411395
+    Ruby: 4655487
+    Scala: 352525
+    Shell: 20965
+    Tcl: 87
+    pct_ActionScript: 1.70869180782891
+    pct_C: 1.89646888550125
+    pct_C Sharp: 2.84229239732065
+    pct_C++: 3.17214601745782
+    pct_Clojure: 0.00492136059930385
+    pct_Emacs Lisp: 0.913685419818656
+    pct_Groovy: 0.0312808721140822
+    pct_Java: 9.73858046300206
+    pct_JavaScript: 44.8980166648904
+    pct_Lua: 0.49291291545267
+    pct_Objective-C: 0.418449591548118
+    pct_PHP: 1.6377798234548
+    pct_Perl: 7.59747097172189
+    pct_Python: 5.40123152648092
+    pct_Ruby: 17.8159644575205
+    pct_Scala: 1.34906893100279
+    pct_Shell: 0.0802304237670337
+    pct_Tcl: 0.000332938080979343
+    pct_total_dev: 0.000474532437257914
+    total_dev: 124
+- 
+  China: 
+    ASP: 7591
+    ActionScript: 133
+    C: 2815337
+    C++: 547756
+    ColdFusion: 170360
+    Emacs Lisp: 45095
+    Erlang: 165517
+    FORTRAN: 193
+    Haskell: 177358
+    Java: 268372
+    JavaScript: 4404263
+    Lua: 3262
+    Objective-C: 843499
+    PHP: 375894
+    Perl: 1211211
+    Python: 2694806
+    Ruby: 2339929
+    Scheme: 0
+    Shell: 260506
+    VimL: 6607
+    pct_ASP: 0.0464627756106847
+    pct_ActionScript: 0.000814062594680682
+    pct_C: 17.232034158801
+    pct_C++: 3.35268925272114
+    pct_ColdFusion: 1.0427346137579
+    pct_Emacs Lisp: 0.27601618576786
+    pct_Erlang: 1.01309171792303
+    pct_FORTRAN: 0.00118130887799528
+    pct_Haskell: 1.08556777193516
+    pct_Java: 1.64264365909507
+    pct_JavaScript: 26.9574869581664
+    pct_Lua: 0.0199659562695367
+    pct_Objective-C: 5.16286454549294
+    pct_PHP: 2.3007612403376
+    pct_Perl: 7.4135456343292
+    pct_Python: 16.4942914625644
+    pct_Ruby: 14.3221704745006
+    pct_Scheme: 0
+    pct_Shell: 1.59449767135253
+    pct_VimL: 0.0404399365643253
+    pct_total_dev: 0.000740613338017764
+    total_dev: 121
+- 
+  Switzerland: 
+    ActionScript: 1440705
+    C: 54948
+    C++: 15442
+    Common Lisp: 396418
+    Emacs Lisp: 241497
+    Erlang: 127792
+    Groovy: 8107
+    Haskell: 213775
+    Java: 3441056
+    JavaScript: 6111488
+    Objective-C: 1354617
+    PHP: 36254873
+    Perl: 62906
+    Python: 2868762
+    R: 5341
+    Ruby: 3628109
+    Scala: 300178
+    Shell: 74051
+    VimL: 2103707
+    pct_ActionScript: 2.454190881354
+    pct_C: 0.0936020077313814
+    pct_C++: 0.0263049101584769
+    pct_Common Lisp: 0.67528428151814
+    pct_Emacs Lisp: 0.411381743850648
+    pct_Erlang: 0.217689229307867
+    pct_Groovy: 0.0138099926599387
+    pct_Haskell: 0.364158280606684
+    pct_Java: 5.86171926760057
+    pct_JavaScript: 10.4107073419641
+    pct_Objective-C: 2.30754296620552
+    pct_PHP: 61.7589157539173
+    pct_Perl: 0.107158184071309
+    pct_Python: 4.88683633441605
+    pct_R: 0.00909820781999905
+    pct_Ruby: 6.18035755019827
+    pct_Scala: 0.511342787304189
+    pct_Shell: 0.1261433041151
+    pct_VimL: 3.5835917390726
+    pct_total_dev: 0.000165236127792531
+    total_dev: 97
+- 
+  India: 
+    C: 585180
+    C Sharp: 20208
+    C++: 1076306
+    Common Lisp: 13161
+    Emacs Lisp: 1482242
+    Erlang: 46880
+    Java: 2884515
+    JavaScript: 6915540
+    Objective-C: 118571
+    PHP: 2713944
+    Perl: 98206
+    Python: 2189587
+    Ruby: 7898522
+    Shell: 25604
+    VimL: 3640
+    pct_C: 2.24445961598944
+    pct_C Sharp: 0.0775078436035317
+    pct_C++: 4.12817483756645
+    pct_Common Lisp: 0.0504790543183928
+    pct_Emacs Lisp: 5.6851435628754
+    pct_Erlang: 0.179808378272643
+    pct_Java: 11.0635657903821
+    pct_JavaScript: 26.5245740673975
+    pct_Objective-C: 0.454779420225374
+    pct_PHP: 10.4093402167826
+    pct_Perl: 0.376669402658771
+    pct_Python: 8.39816739669073
+    pct_Ruby: 30.2948044277046
+    pct_Shell: 0.0982042175190433
+    pct_VimL: 0.0139612307361864
+    pct_total_dev: 0.000360537277253166
+    total_dev: 94
+- 
+  Poland: 
+    ActionScript: 2495
+    C: 13075
+    C++: 482395
+    Clojure: 19923
+    Common Lisp: 2683683
+    Emacs Lisp: 919822
+    Erlang: 60661
+    Java: 364448
+    JavaScript: 3437090
+    PHP: 799646
+    Python: 1515769
+    Ruby: 8780167
+    Scala: 4124
+    Scheme: 123069
+    Shell: 6602
+    Tcl: 87
+    pct_ActionScript: 0.0129859003829982
+    pct_C: 0.0680523637305416
+    pct_C++: 2.51075487585427
+    pct_Clojure: 0.10369462658536
+    pct_Common Lisp: 13.9679519429041
+    pct_Emacs Lisp: 4.78746166817241
+    pct_Erlang: 0.315726534321865
+    pct_Java: 1.89686790492301
+    pct_JavaScript: 17.8892618626851
+    pct_PHP: 4.16197326559638
+    pct_Python: 7.88922855215903
+    pct_Ruby: 45.6987470974301
+    pct_Scala: 0.0214644702122182
+    pct_Scheme: 0.640545801296675
+    pct_Shell: 0.0343618895104425
+    pct_Tcl: 0.000452814963254846
+    pct_total_dev: 0.0004684292723326
+    total_dev: 90
+- 
+  Belgium: 
+    ActionScript: 4469
+    C: 4840586
+    C Sharp: 480084
+    C++: 4015820
+    Common Lisp: 6976
+    Haskell: 78473
+    Java: 1700
+    JavaScript: 3272911
+    PHP: 1413158
+    Perl: 25954
+    Python: 271439
+    Ruby: 3555088
+    Shell: 176113
+    pct_ActionScript: 0.0246322823008371
+    pct_C: 26.6803940150995
+    pct_C Sharp: 2.64613215845045
+    pct_C++: 22.1344398991603
+    pct_Common Lisp: 0.0384503918842335
+    pct_Haskell: 0.432528326022284
+    pct_Java: 0.00937007829747662
+    pct_JavaScript: 18.0396660768662
+    pct_PHP: 7.78905947453262
+    pct_Perl: 0.143053536548652
+    pct_Python: 1.49612040175809
+    pct_Ruby: 19.5949723025997
+    pct_Shell: 0.970701528943235
+    pct_total_dev: 0.000479527536400274
+    total_dev: 87
+- 
+  Italy: 
+    ActionScript: 17820
+    C: 12079497
+    C Sharp: 115075
+    C++: 3905950
+    D: 3279
+    Emacs Lisp: 78863
+    Erlang: 291760
+    Haskell: 13850
+    Java: 30794
+    JavaScript: 14435737
+    Lua: 2561
+    Objective-C: 2458739
+    PHP: 2075752
+    Perl: 796025
+    Python: 2627981
+    R: 7210
+    Ruby: 12296600
+    Scheme: 672
+    Shell: 21257
+    Tcl: 54775
+    VimL: 21279
+    Visual Basic: 1724
+    pct_ActionScript: 0.0347116135962391
+    pct_C: 23.5296763356301
+    pct_C Sharp: 0.224154822367408
+    pct_C++: 7.60840780730808
+    pct_D: 0.00638717064994769
+    pct_Emacs Lisp: 0.153617395232335
+    pct_Erlang: 0.568319886803519
+    pct_Haskell: 0.0269784426659883
+    pct_Java: 0.0599836941123786
+    pct_JavaScript: 28.1194009383239
+    pct_Lua: 0.0049885770157109
+    pct_Objective-C: 4.78938260954003
+    pct_PHP: 4.04336146720653
+    pct_Perl: 1.55057868759519
+    pct_Python: 5.11904943940841
+    pct_R: 0.0140443734022943
+    pct_Ruby: 23.952571703003
+    pct_Scheme: 0.00130899014234976
+    pct_Shell: 0.0414065527617988
+    pct_Tcl: 0.106696331915488
+    pct_VimL: 0.0414494066057447
+    pct_Visual Basic: 0.00335818304376634
+    pct_total_dev: 0.000165571669791264
+    total_dev: 85
+- 
+  Mexico: 
+    C: 4886325
+    C Sharp: 215473
+    C++: 1004137
+    Clojure: 644
+    Emacs Lisp: 5860375
+    Groovy: 9862
+    Java: 153826
+    JavaScript: 3919007
+    Objective-C: 258073
+    Objective-J: 11585137
+    PHP: 1124147
+    Perl: 536039
+    Python: 233463
+    R: 39990
+    Ruby: 1946860
+    Shell: 166289
+    VimL: 7457735
+    Visual Basic: 169623
+    pct_C: 12.3494692621405
+    pct_C Sharp: 0.544576382111546
+    pct_C++: 2.53780888837275
+    pct_Clojure: 0.00162761547887594
+    pct_Emacs Lisp: 14.8112376739403
+    pct_Groovy: 0.0249247575352089
+    pct_Java: 0.388772637660823
+    pct_JavaScript: 9.90471499227199
+    pct_Objective-C: 0.652241629627252
+    pct_Objective-J: 29.2797333945627
+    pct_PHP: 2.84111654927322
+    pct_Perl: 1.35475989702047
+    pct_Python: 0.590043466684493
+    pct_R: 0.101068855590448
+    pct_Ruby: 4.92040290559691
+    pct_Shell: 0.420271040942238
+    pct_VimL: 18.8483306263274
+    pct_Visual Basic: 0.428697236604617
+    pct_total_dev: 0.000202188258245458
+    total_dev: 80
